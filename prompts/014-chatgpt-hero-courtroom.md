@@ -1,7 +1,7 @@
 ---
 id: "014"
 title: "Hero-only brief written by ChatGPT: a living pixel courtroom"
-author: "Aaritra Kumar"
+author: "Tanushree"
 tool: "Claude"
 techniques: ["Structured", "Clear instructions and constraints", "Prompt refinement and optimization"]
 date: "2026-11-21"

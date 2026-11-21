@@ -1,7 +1,7 @@
 ---
 id: "011"
 title: "Research report: GD problem, debate formats, rubric and fallacies"
-author: "Aaritra Kumar"
+author: "Rounak"
 tool: "Perplexity"
 techniques: ["Role-based", "Context-based", "Structured", "Clear instructions and constraints"]
 date: "2026-11-21"

@@ -1,7 +1,7 @@
 ---
 id: "008"
 title: "Critique our rough redesign prompt with ChatGPT"
-author: "Aaritra Kumar"
+author: "Tanushree"
 tool: "ChatGPT"
 techniques: ["Response evaluation", "Prompt refinement and optimization", "Clear instructions and constraints"]
 date: "2026-11-21"

@@ -1,7 +1,7 @@
 ---
 id: "012"
 title: "Case Library: 8 researched cases with sourced facts for and against"
-author: "Aaritra Kumar"
+author: "Rounak"
 tool: "Perplexity"
 techniques: ["Role-based", "Context-based", "Structured", "Clear instructions and constraints"]
 date: "2026-11-21"

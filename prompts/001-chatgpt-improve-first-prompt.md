@@ -1,7 +1,7 @@
 ---
 id: "001"
 title: "Rough first prompt, improved with ChatGPT"
-author: "Aaritra Kumar"
+author: "Tanushree"
 tool: "ChatGPT"
 techniques: ["Prompt refinement and optimization", "Reverse prompting", "Structured"]
 date: "2026-11-20"

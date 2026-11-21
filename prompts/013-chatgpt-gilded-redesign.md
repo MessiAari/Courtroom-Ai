@@ -1,7 +1,7 @@
 ---
 id: "013"
 title: "Redesign brief written by ChatGPT: cinematic hero, sample hearing, pixel-art courtroom"
-author: "Aaritra Kumar"
+author: "Tanushree"
 tool: "Claude"
 techniques: ["Structured", "Clear instructions and constraints", "Context-based", "Prompt refinement and optimization"]
 date: "2026-11-21"
