@@ -1,6 +1,6 @@
 ---
-id: "001"
-title: "Initial project-building prompt (5 parts)"
+id: "002"
+title: "Initial project-building prompt (5 parts, v3)"
 author: "Aaritra Kumar"
 tool: "Claude"
 techniques: ["Role-based", "Context-based", "Structured", "Clear instructions and constraints", "Step-by-step / chain"]
@@ -135,6 +135,22 @@ Do **not** build these yet: Practice Mode (user vs AI), PDF export, accounts, or
 5. Finish with a `README.md` covering the project description, problem and audience, features, tech stack, AI tools used, how the three agents interact, how to get free Gemini, Groq and Mistral API keys, setup and run commands, Vercel deployment, and troubleshooting.
 ````
 
+## Before (optional: earlier, weaker version)
+
+> **v2, written by ChatGPT (prompt 001):** "# Project: AI Courtroom – Multi-Agent Debate Platform … You are a senior full-stack developer, UI/UX designer, and AI engineer. Build a complete, functional, visually polished web application … Start by building the complete project. Do not stop at planning or asking me questions." About 350 lines; full text in [outputs/001-chatgpt-v2.md](outputs/001-chatgpt-v2.md).
+
+## Why we changed it
+
+We edited ChatGPT's v2 by hand into this v3:
+
+- **Plan first, then wait.** v2 said "do not stop at planning or asking me questions". We reversed that so we could review the architecture before any code, then build in 10 ordered steps.
+- **One model per character.** v2 said "optional: choose AI provider". v3 has a table: both lawyers on the same Groq model (so the debate is fair), the Judge on Gemini, each with a fallback.
+- **Structured JSON outputs.** We added exact JSON shapes for lawyer turns, round scores and the verdict, so the visuals (emotion, credibility meter, OBJECTION) are driven by data.
+- **Limits.** Turns under 100 words, a compact transcript and one Judge call per round, to stay inside free tiers.
+- **Our own features.** Case Library with cited facts, "Case dismissed" input validation, "court is in recess" errors, and the "How we built this" page with prompt logging.
+- **Cut scope.** v2's long "if time permits" list became an explicit "out of scope for now" list (Practice Mode, PDF export, accounts, database).
+- **Context.** Added the real problem, target audience and project rules (Vercel, a working chatbot, documented prompts).
+
 ## How the five parts map
 
 | Part | What it gave the AI | Effect on the output |
@@ -147,7 +163,7 @@ Do **not** build these yet: Practice Mode (user vs AI), PDF export, accounts, or
 
 ## Result
 
-The AI replied with a plan only, as instructed. Full reply saved in [outputs/001-plan.md](outputs/001-plan.md).
+The AI replied with a plan only, as instructed. Full reply saved in [outputs/002-plan.md](outputs/002-plan.md).
 
 - Proposed a **client-driven debate loop**: the browser calls one API route per turn, so each Vercel call stays short and pause / skip / retry are easy.
 - **Provider layer**: one `generate()` function per provider plus a `withFallback()` chain that switches on 429, timeout, 5xx or missing key.

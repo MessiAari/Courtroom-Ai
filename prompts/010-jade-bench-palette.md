@@ -1,5 +1,5 @@
 ---
-id: "008"
+id: "010"
 title: "Make the pixel style our own: Jade bench palette"
 author: "Aaritra Kumar"
 tool: "Claude"
@@ -22,7 +22,7 @@ screenshot: ""
 
 ## Before (optional: earlier, weaker version)
 
-> Use Mistral.ai as inspiration for its bold typography, vibrant colours, clean layouts… *(prompt 007)*
+> Use Mistral.ai as inspiration for its bold typography, vibrant colours, clean layouts… *(prompt 009)*
 
 ## Why we changed it
 

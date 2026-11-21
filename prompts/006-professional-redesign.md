@@ -1,5 +1,5 @@
 ---
-id: "005"
+id: "006"
 title: "Redesign: make it look designer-made, not AI-made"
 author: "Aaritra Kumar"
 tool: "Claude"

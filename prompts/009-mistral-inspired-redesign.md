@@ -1,5 +1,5 @@
 ---
-id: "007"
+id: "009"
 title: "Redesign: visually striking, modern and interactive"
 author: "Aaritra Kumar"
 tool: "Claude"
@@ -24,12 +24,13 @@ screenshot: ""
 
 ## Before (optional: earlier, weaker version)
 
-> OK, now the site looks very AI-built. I want it to look like a professional designer built it. *(prompt 005)*
+> The site looks too dull. Make it lively. Use mistral.ai as reference for the theme and use components from 21st.dev. Don't break anything that already works. Make it look good on mobile too. *(our rough draft)*
 
 ## Why we changed it
 
-- Prompt 005 only said what we *didn't* want, and produced a restrained editorial design that felt too quiet for a game-like app.
-- This prompt uses all five parts again: a role, a concrete visual reference, explicit constraints (keep every feature, mobile, accessibility) and an execution order (inspect → implement → test → fix → build).
+- Our previous design prompt (006) only said what we *didn't* want, and produced a restrained editorial design that felt too quiet for a game-like app.
+- Our rough draft above fixed the direction but was still vague, so we had ChatGPT critique it against the five parts and rewrite it in under 200 words (prompt 008). This is that rewrite, sent unchanged.
+- It uses all five parts again: a role, a concrete visual reference, explicit constraints (keep every feature, mobile, accessibility) and an execution order (inspect → implement → test → fix → build).
 
 ## Result
 
@@ -39,7 +40,7 @@ screenshot: ""
 - Hearing: sticky bench bar (meter + party cells that light up), record entries as cards with pixel avatars and score chips, a full-width OBJECTION band.
 - Judgment: a full-colour winner panel with tipping pixel scales and a stamp, pixel block score bars, findings, GD-point cards, and a share card.
 - Tested with real debates on desktop and at 375 px; no horizontal scroll; build, lint and types pass.
-- The first version used Mistral's own orange/yellow colours, which we changed in prompt 008.
+- The first version used Mistral's own orange/yellow colours, which we changed in prompt 010.
 
 ## What we learned
 

@@ -1,4 +1,4 @@
-# Output of prompt 001: Claude's plan (verbatim, lightly trimmed)
+# Output of prompt 002: Claude's plan (verbatim, lightly trimmed)
 
 > Saved because the course guidelines ask us to keep "the original prompt and the output generated from it".
 

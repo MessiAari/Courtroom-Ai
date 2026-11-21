@@ -1,9 +1,9 @@
 # Courtroom AI — notes for Claude sessions
 
 College Prompt Engineering final project (JECRC University). Team: **Aaritra Kumar** (Aari, main user here), **Tanushree**, **Rounak**.
-The full build brief is prompt 001: `prompts/001-initial-project-prompt.md`. Follow its constraints and build order.
+The full build brief is prompt 002: `prompts/002-initial-project-prompt.md`. Follow its constraints and build order.
 
-## Design (decided in prompts 007–008)
+## Design (decided in prompts 009–010)
 - **"Jade bench" retro court game.** Near-black canvas, heavy Geist headlines, Silkscreen pixel font for numbers/stamps/OBJECTION!, hairline grid cells.
 - Colours: jade ramp (`jade-200…700`, `accent`) for the Judge and accents; `pros` red `#E5484D` = Prosecution; `def` blue `#3E8BFF` = Defence; `danger` red for errors. **No orange or yellow** — the earlier Mistral-like orange/yellow was rejected as copying their brand.
 - Pixel art is drawn in code from bitmaps in `components/ui/pixel-icons.ts` (scales, sword, shield, gavel, stamp, heart, bubble). Credibility = fighting-game health bar (`components/ui/PixelMeter.tsx`).

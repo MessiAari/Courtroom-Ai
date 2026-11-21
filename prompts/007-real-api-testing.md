@@ -1,5 +1,5 @@
 ---
-id: "006"
+id: "007"
 title: "Test with real API keys (and the Gemini bug it found)"
 author: "Aaritra Kumar"
 tool: "Claude"

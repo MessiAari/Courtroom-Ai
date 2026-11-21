@@ -130,7 +130,7 @@ See [`PROMPTS.md`](PROMPTS.md) for every prompt, which tool it went to, and how 
 
 - **Claude (Claude Code):** architecture plan, all application code, agent prompts, prompt log.
 - **Perplexity:** the research report in [`docs/research-report.md`](docs/research-report.md): the GD problem, debate formats, judging rubric, common fallacies, and the 8-case library with sourced FOR/AGAINST facts.
-- **ChatGPT / Gemini:** _(to be added by the team)_.
+- **ChatGPT:** expanded our rough first prompt into a detailed spec that we edited into the build prompt, and critiqued and rewrote our redesign prompt (prompts 001, 008).
 
 ## Troubleshooting
 

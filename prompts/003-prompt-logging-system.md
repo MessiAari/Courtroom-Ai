@@ -1,5 +1,5 @@
 ---
-id: "002"
+id: "003"
 title: "Set up a prompt log for the whole team"
 author: "Aaritra Kumar"
 tool: "Claude"
@@ -20,7 +20,7 @@ screenshot: ""
 
 - Created `/prompts` with one Markdown file per prompt and a shared [`_TEMPLATE.md`](_TEMPLATE.md) (id, title, author, tool, techniques, date, screenshot, prompt, before, result, lessons).
 - Created [`PROMPTS.md`](../PROMPTS.md): an index table of every prompt plus a short "how to add yours" guide for teammates.
-- Saved prompt 001 and its full output ([outputs/001-plan.md](outputs/001-plan.md)).
+- Saved prompt 002 and its full output ([outputs/002-plan.md](outputs/002-plan.md)).
 - Added a rule in `CLAUDE.md` so every future prompt to Claude gets logged automatically, with casual wording tidied up for presentation.
 - These same files will feed the "How we built this" page, so the website and the repo show the same prompt history.
 

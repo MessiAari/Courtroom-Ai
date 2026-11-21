@@ -7,23 +7,26 @@ Every prompt we used to build this project, across all AI tools. Each row links 
 
 | # | Title | Author | Tool | Techniques | Date |
 |---|---|---|---|---|---|
-| [001](prompts/001-initial-project-prompt.md) | Initial project-building prompt (5 parts) | Aaritra Kumar | Claude | Role-based, Context-based, Structured, Constraints, Chain | 2026-11-20 |
-| [002](prompts/002-prompt-logging-system.md) | Set up a prompt log for the whole team | Aaritra Kumar | Claude | Context-based, Refinement | 2026-11-20 |
-| [003](prompts/003-approve-plan-and-build.md) | Approve the plan and build the app | Aaritra Kumar | Claude | Step-by-step / chain | 2026-11-20 |
-| [004](prompts/004-design-pivot-no-characters.md) | Design pivot: cartoon characters → emblem courtroom | Aaritra Kumar | Claude | Refinement, Response evaluation, Reverse prompting | 2026-11-20 |
-| [005](prompts/005-professional-redesign.md) | Redesign: make it look designer-made, not AI-made | Aaritra Kumar | Claude | Response evaluation, Refinement, Constraints | 2026-11-20 |
-| [006](prompts/006-real-api-testing.md) | Test with real API keys (and the Gemini bug it found) | Aaritra Kumar | Claude | Response evaluation, Chain | 2026-11-21 |
-| [007](prompts/007-mistral-inspired-redesign.md) | Redesign: visually striking, modern and interactive | Aaritra Kumar | Claude | Role-based, Context-based, Structured, Constraints, Chain | 2026-11-21 |
-| [008](prompts/008-jade-bench-palette.md) | Make the pixel style our own: Jade bench palette | Aaritra Kumar | Claude | Response evaluation, Refinement, Constraints, Chain | 2026-11-21 |
-| [009](prompts/009-perplexity-research.md) | Research report: GD problem, formats, rubric, fallacies, case library | TBD | Perplexity | Context-based, Structured, Constraints | 2026-11-21 |
+| [001](prompts/001-chatgpt-improve-first-prompt.md) | Rough first prompt, improved with ChatGPT | Aaritra Kumar | ChatGPT | Refinement, Reverse prompting, Structured | 2026-11-20 |
+| [002](prompts/002-initial-project-prompt.md) | Initial project-building prompt (5 parts, v3) | Aaritra Kumar | Claude | Role-based, Context-based, Structured, Constraints, Chain | 2026-11-20 |
+| [003](prompts/003-prompt-logging-system.md) | Set up a prompt log for the whole team | Aaritra Kumar | Claude | Context-based, Refinement | 2026-11-20 |
+| [004](prompts/004-approve-plan-and-build.md) | Approve the plan and build the app | Aaritra Kumar | Claude | Step-by-step / chain | 2026-11-20 |
+| [005](prompts/005-design-pivot-no-characters.md) | Design pivot: cartoon characters → emblem courtroom | Aaritra Kumar | Claude | Refinement, Response evaluation, Reverse prompting | 2026-11-20 |
+| [006](prompts/006-professional-redesign.md) | Redesign: make it look designer-made, not AI-made | Aaritra Kumar | Claude | Response evaluation, Refinement, Constraints | 2026-11-20 |
+| [007](prompts/007-real-api-testing.md) | Test with real API keys (and the Gemini bug it found) | Aaritra Kumar | Claude | Response evaluation, Chain | 2026-11-21 |
+| [008](prompts/008-chatgpt-critique-redesign-prompt.md) | Critique our rough redesign prompt with ChatGPT | Aaritra Kumar | ChatGPT | Response evaluation, Refinement, Constraints | 2026-11-21 |
+| [009](prompts/009-mistral-inspired-redesign.md) | Redesign: visually striking, modern and interactive | Aaritra Kumar | Claude | Role-based, Context-based, Structured, Constraints, Chain | 2026-11-21 |
+| [010](prompts/010-jade-bench-palette.md) | Make the pixel style our own: Jade bench palette | Aaritra Kumar | Claude | Response evaluation, Refinement, Constraints, Chain | 2026-11-21 |
+| [011](prompts/011-perplexity-research-report.md) | Research report: GD problem, formats, rubric, fallacies | Aaritra Kumar | Perplexity | Role-based, Context-based, Structured, Constraints | 2026-11-21 |
+| [012](prompts/012-perplexity-case-library.md) | Case Library: 8 cases with sourced facts for and against | Aaritra Kumar | Perplexity | Role-based, Context-based, Structured, Constraints | 2026-11-21 |
 
 ## AI tools used (guideline 2.3: at least three)
 
 | Tool | Used by | What it did for the project |
 |---|---|---|
 | Claude (Claude Code) | Aaritra | Architecture plan, all app code, agent system prompts, two design iterations, prompt log |
-| _ChatGPT_ | _TBD_ | _fill in_ |
-| Perplexity | _TBD_ | Research report ([docs/research-report.md](docs/research-report.md)): the GD problem, debate formats, judging rubric, fallacies, and the 8-case library with sourced facts for and against |
+| ChatGPT | Aaritra | Turned our rough first prompt into a detailed spec (001), which we edited into the build prompt (002); critiqued and rewrote our redesign prompt (008) |
+| Perplexity | Aaritra | Research report (011) ([docs/research-report.md](docs/research-report.md)): the GD problem, debate formats, judging rubric, fallacies, and the 8-case library with sourced facts for and against (012) |
 
 ## Prompt-engineering techniques (guideline 2.4)
 
