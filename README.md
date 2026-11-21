@@ -2,7 +2,7 @@
 
 Three AI agents argue your case **on their own**: a **Prosecutor** argues FOR, a **Defender** argues AGAINST, and a **Judge** scores every round, calls out logical fallacies with an **OBJECTION!**, delivers a verdict, and then answers your questions.
 
-**Live site:** _add the Vercel URL after deploying_
+**Live site:** https://courtroom-ai-wheat.vercel.app/
 **Team:** Aaritra Kumar · Tanushree · Rounak — Prompt Engineering final project (3rd semester)
 
 ---
