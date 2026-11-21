@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { ButtonLink } from "@/components/ui/primitives";
 import { Courtroom } from "@/components/courtroom/Courtroom";
 import { SetupScreen } from "@/components/SetupScreen";
 import { getCase } from "@/lib/cases";
@@ -20,13 +20,11 @@ export default async function CourtroomPage({ searchParams }: PageProps<"/courtr
   const check = validateCase(one(params.topic) ?? "");
   if (!check.ok) {
     return (
-      <div className="mx-auto max-w-6xl px-5 pt-14">
-        <p className="label text-pros">Case dismissed</p>
-        <h1 className="mt-4 max-w-3xl font-serif text-5xl leading-none sm:text-6xl">The court can&apos;t hear this case.</h1>
+      <div className="mx-auto max-w-5xl px-5 pt-14 sm:px-8 sm:pt-20">
+        <p className="label text-danger">Case dismissed</p>
+        <h1 className="display mt-5 max-w-3xl text-5xl sm:text-7xl">The court can&apos;t hear this case.</h1>
         <p className="mt-6 max-w-xl text-lg text-muted">{check.message.replace(/^Case dismissed:\s*/, "")}</p>
-        <Link href="/file" className="mt-10 inline-block bg-ink px-6 py-3 text-sm font-medium text-bg hover:bg-brass">
-          File a case →
-        </Link>
+        <ButtonLink href="/file" className="mt-10">File a case</ButtonLink>
       </div>
     );
   }

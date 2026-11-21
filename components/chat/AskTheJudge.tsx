@@ -6,7 +6,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { ArrowUp, RotateCcw, Trash2 } from "lucide-react";
 import type { ChatMessage, RoundScore, Turn, Verdict } from "@/lib/types";
+import { PixelArt } from "@/components/ui/PixelArt";
+import { BUBBLE, SCALES } from "@/components/ui/pixel-icons";
+import { PixelLoader } from "@/components/courtroom/Record";
+import { buttonClass } from "@/components/ui/primitives";
 
 const SUGGESTIONS = ["Why did this side win?", "What was the weakest argument?", "Give me GD points", "How could the losing side win?"];
 const MAX_LEN = 500;
@@ -28,11 +33,11 @@ export function AskTheJudge({
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const endRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
-  // Keep the newest message in view.
+  // Keep the newest message in view (inside the chat panel only).
   useEffect(() => {
-    if (messages.length || loading || error) endRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, loading, error]);
 
   /** Sends the conversation to our API route and appends the Judge's reply. */
@@ -86,86 +91,97 @@ export function AskTheJudge({
   }
 
   return (
-    <section className="mt-20 grid gap-6 border-t border-line pt-8 lg:grid-cols-[1fr_2fr]">
+    <section className="mt-16 grid gap-8 lg:grid-cols-[1fr_1.6fr]">
       <div>
-        <p className="label text-brass">Questions for the bench</p>
-        <h2 className="mt-3 font-serif text-4xl leading-tight">Ask the Judge</h2>
-        <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
-          The Judge has the full record and the judgment, and will answer questions about this hearing.
+        <p className="label">
+          <span className="font-pixel text-accent">Q&amp;A</span> &nbsp;Questions for the bench
         </p>
-        {messages.length > 0 && (
-          <button
-            onClick={() => {
-              setMessages([]);
-              setError(null);
-            }}
-            className="mt-4 text-sm text-muted underline-offset-4 hover:text-ink hover:underline"
-          >
-            Clear conversation
-          </button>
-        )}
+        <h2 className="display mt-4 text-4xl sm:text-6xl">Ask the Judge.</h2>
+        <p className="mt-4 max-w-sm leading-relaxed text-muted">
+          The Judge has the full record and the judgment. Ask why, what was weakest, or what to say in your own GD.
+        </p>
+        <PixelArt bitmap={BUBBLE} colors={{ a: "#34D399", b: "#6EE7B7" }} interactive className="mt-8 hidden h-16 w-20 lg:block" />
       </div>
 
-      <div>
-        {messages.length === 0 && !loading && (
-          <div className="flex flex-wrap gap-2">
-            {SUGGESTIONS.map((s) => (
-              <button
-                key={s}
-                onClick={() => ask(s)}
-                className="border border-line-strong px-3.5 py-2 text-sm text-ink/90 transition-colors hover:border-ink"
-              >
-                {s}
-              </button>
-            ))}
+      <div className="flex min-h-[26rem] flex-col overflow-hidden rounded-2xl border border-line bg-surface">
+        <header className="flex items-center justify-between border-b border-line px-5 py-3">
+          <div className="flex items-center gap-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-md border border-accent/40 bg-accent/10">
+              <PixelArt bitmap={SCALES} colors={{ a: "#34D399", b: "#6EE7B7" }} className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold">The Judge</p>
+              <p className="font-mono text-[10px] uppercase tracking-wider text-faint">Gemini · has the full record</p>
+            </div>
           </div>
-        )}
+          {messages.length > 0 && (
+            <button
+              onClick={() => {
+                setMessages([]);
+                setError(null);
+              }}
+              className="flex items-center gap-1.5 text-xs text-muted transition-colors hover:text-ink"
+            >
+              <Trash2 className="h-3.5 w-3.5" /> Clear
+            </button>
+          )}
+        </header>
 
-        <div className="divide-y divide-line">
+        <div ref={listRef} className="flex-1 space-y-4 overflow-y-auto p-5" style={{ maxHeight: "32rem" }}>
+          {messages.length === 0 && !loading && (
+            <div className="flex h-full flex-col justify-center gap-4 py-6">
+              <p className="text-muted">Try one of these:</p>
+              <div className="flex flex-wrap gap-2">
+                {SUGGESTIONS.map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => ask(s)}
+                    className="rounded-md border border-line-strong bg-raised px-3.5 py-2 text-left text-sm transition-all hover:-translate-y-0.5 hover:border-accent hover:text-accent"
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {messages.map((m, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 6 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              className="grid gap-x-6 gap-y-1 py-5 sm:grid-cols-[6rem_1fr]"
+              className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
             >
-              <p className={`font-mono text-[11px] uppercase tracking-wide ${m.role === "user" ? "text-faint" : "text-brass"}`}>
-                {m.role === "user" ? "You" : "The Judge"}
-              </p>
-              <p className={`whitespace-pre-wrap leading-relaxed ${m.role === "user" ? "text-muted" : "text-ink"}`}>{m.content}</p>
+              <div
+                className={`max-w-[88%] whitespace-pre-wrap rounded-xl px-4 py-3 text-[15px] leading-relaxed ${
+                  m.role === "user" ? "rounded-br-sm bg-ink text-bg" : "rounded-bl-sm border border-line bg-raised text-ink"
+                }`}
+              >
+                {m.content}
+              </div>
             </motion.div>
           ))}
+
           {loading && (
-            <div className="grid gap-x-6 gap-y-1 py-5 sm:grid-cols-[6rem_1fr]">
-              <p className="font-mono text-[11px] uppercase tracking-wide text-brass">The Judge</p>
-              <p className="flex items-center gap-2 text-muted">
-                Considering
-                {[0, 1, 2].map((i) => (
-                  <motion.span
-                    key={i}
-                    className="h-1 w-1 bg-brass"
-                    animate={{ opacity: [0.15, 1, 0.15] }}
-                    transition={{ duration: 1.1, repeat: Infinity, delay: i * 0.18 }}
-                  />
-                ))}
-              </p>
+            <div className="flex items-center gap-3 text-sm text-muted">
+              <PixelLoader color="#34D399" /> The Judge is considering…
+            </div>
+          )}
+
+          {error && (
+            <div className="flex flex-wrap items-center gap-3 rounded-lg border border-danger/40 bg-danger/[0.08] px-4 py-3 text-sm" role="alert">
+              <span className="flex-1">{error}</span>
+              {messages.at(-1)?.role === "user" && !loading && (
+                <button onClick={() => send(messages)} className={`${buttonClass("primary")} !px-3 !py-1.5 text-xs`}>
+                  <RotateCcw className="h-3.5 w-3.5" /> Retry
+                </button>
+              )}
             </div>
           )}
         </div>
 
-        {error && (
-          <div className="mt-3 flex flex-wrap items-center gap-4 border-l-2 border-pros py-2 pl-4 text-sm" role="alert">
-            <span className="flex-1 text-ink/90">{error}</span>
-            {messages.at(-1)?.role === "user" && !loading && (
-              <button onClick={() => send(messages)} className="bg-ink px-4 py-1.5 text-sm text-bg hover:bg-brass">
-                Retry
-              </button>
-            )}
-          </div>
-        )}
-
         <form
-          className="mt-6 flex items-end gap-3 border-b border-line-strong focus-within:border-ink"
+          className="flex items-center gap-2 border-t border-line p-3"
           onSubmit={(e) => {
             e.preventDefault();
             ask(input);
@@ -176,14 +192,18 @@ export function AskTheJudge({
             onChange={(e) => setInput(e.target.value)}
             maxLength={MAX_LEN + 50}
             placeholder="Ask about this hearing…"
-            className="min-w-0 flex-1 bg-transparent py-3 text-lg text-ink placeholder:text-faint focus:outline-none"
+            className="min-w-0 flex-1 rounded-md bg-transparent px-3 py-2.5 text-[15px] text-ink placeholder:text-faint focus:outline-none"
             aria-label="Your question for the Judge"
           />
-          <button type="submit" disabled={!input.trim() || loading} className="pb-3 text-sm text-ink disabled:text-faint">
-            Ask →
+          <button
+            type="submit"
+            disabled={!input.trim() || loading}
+            className="flex h-10 w-10 items-center justify-center rounded-md bg-ink text-bg transition-colors hover:bg-accent disabled:opacity-30"
+            aria-label="Ask"
+          >
+            <ArrowUp className="h-4 w-4" />
           </button>
         </form>
-        <div ref={endRef} />
       </div>
     </section>
   );

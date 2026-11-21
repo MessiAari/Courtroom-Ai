@@ -7,6 +7,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import type { Emotion, Fallacy, Speaker } from "@/lib/types";
 import { PARTY } from "@/lib/speakers";
 import { speak } from "@/lib/speech";
+import { PixelArt } from "@/components/ui/PixelArt";
 
 export interface EntryData {
   id: string;
@@ -17,48 +18,77 @@ export interface EntryData {
   emotion?: Emotion;
   provider?: string;
   fallacy?: Fallacy | null;
+  scores?: [number, number]; // for Judge rulings: [prosecution, defence]
 }
 
 const CHARS_PER_TICK = 2;
 const TICK_MS = 26; // ≈ 75 characters per second
 
-/** Highlights evidence tags like [E2]. */
+/** Highlights evidence tags like [E2] as small pixel chips. */
 function withEvidence(text: string) {
   return text.split(/(\[E\d+\])/g).map((part, i) =>
     /^\[E\d+\]$/.test(part) ? (
-      <sup key={i} className="ml-0.5 font-mono text-[0.45em] text-brass">
+      <span key={i} className="mx-0.5 inline-block -translate-y-0.5 rounded-sm bg-accent/15 px-1.5 py-0.5 align-middle font-pixel text-[0.55em] text-accent">
         {part.slice(1, -1)}
-      </sup>
+      </span>
     ) : (
       part
     ),
   );
 }
 
+/** Square avatar with the party's pixel icon. */
+export function PartyAvatar({ speaker, active = false, size = "md" }: { speaker: Speaker; active?: boolean; size?: "sm" | "md" }) {
+  const p = PARTY[speaker];
+  return (
+    <div
+      className={`flex shrink-0 items-center justify-center rounded-md border ${size === "md" ? "h-11 w-11" : "h-8 w-8"}`}
+      style={{ background: `${p.color}1a`, borderColor: `${p.color}55` }}
+    >
+      <PixelArt bitmap={p.icon} colors={p.iconColors} className={`${size === "md" ? "h-6 w-6" : "h-4 w-4"} ${active ? "animate-bob" : ""}`} />
+    </div>
+  );
+}
+
 /** The visual layout shared by static and live entries. */
-function EntryShell({ entry, dim, children }: { entry: EntryData; dim?: boolean; children: React.ReactNode }) {
+function EntryShell({ entry, live, dim, children }: { entry: EntryData; live?: boolean; dim?: boolean; children: React.ReactNode }) {
   const p = PARTY[entry.speaker];
-  const isJudge = entry.speaker === "judge";
+  const objection = entry.speaker === "judge" && entry.fallacy;
   return (
     <article
-      className={`grid gap-x-6 gap-y-2 border-t border-line py-7 transition-opacity duration-500 sm:grid-cols-[7.5rem_1fr] ${
-        dim ? "opacity-55 hover:opacity-100" : ""
-      }`}
+      className={`relative flex gap-4 rounded-xl border p-4 transition-all duration-500 sm:gap-5 sm:p-6 ${
+        objection ? "border-accent/50 bg-accent/[0.07]" : live ? "bg-surface" : "border-transparent"
+      } ${dim ? "opacity-55 hover:opacity-100" : ""}`}
+      style={live && !objection ? { borderColor: `${p.color}66` } : undefined}
     >
-      <header className="flex items-baseline gap-3 font-mono text-[11px] uppercase tracking-wide sm:block">
-        <span className="text-faint">{String(entry.no).padStart(2, "0")}</span>
-        <span className={`sm:mt-2 sm:block ${p.text}`}>{p.name}</span>
-        <span className="text-faint sm:mt-1 sm:block">{entry.label}</span>
-        {entry.emotion && entry.emotion !== "neutral" && <span className="text-faint sm:mt-1 sm:block">— {entry.emotion}</span>}
-      </header>
-      <div className={isJudge && entry.fallacy ? "border-l-2 border-pros pl-4" : ""}>
-        {isJudge && entry.fallacy && (
-          <p className="mb-2 font-mono text-[11px] uppercase tracking-wide text-pros">
-            Objection sustained · {entry.fallacy.type} · {entry.fallacy.by === "prosecutor" ? "Prosecution" : "Defence"}
+      {live && <div className="absolute left-0 top-6 h-8 w-[3px] rounded-r" style={{ background: p.color }} aria-hidden />}
+      <PartyAvatar speaker={entry.speaker} active={live} />
+      <div className="min-w-0 flex-1">
+        <header className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span className={`text-sm font-semibold ${p.text}`}>{p.name}</span>
+          <span className="font-mono text-[11px] uppercase tracking-wider text-faint">{entry.label}</span>
+          {entry.emotion && entry.emotion !== "neutral" && (
+            <span className="rounded-sm border border-line-strong px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted">
+              {entry.emotion}
+            </span>
+          )}
+          <span className="ml-auto font-pixel text-xs text-faint">{String(entry.no).padStart(2, "0")}</span>
+        </header>
+        {objection && (
+          <p className="mt-2 font-pixel text-sm uppercase text-accent">
+            Objection sustained · {entry.fallacy!.type} · {entry.fallacy!.by === "prosecutor" ? "Prosecution" : "Defence"}
           </p>
         )}
         {children}
-        {entry.provider && <p className="mt-3 font-mono text-[10px] uppercase tracking-wide text-faint">via {entry.provider}</p>}
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          {entry.scores && (
+            <>
+              <span className="rounded-sm bg-pros/15 px-2 py-1 font-pixel text-xs text-pros">PROS {entry.scores[0]}</span>
+              <span className="rounded-sm bg-def/15 px-2 py-1 font-pixel text-xs text-def">DEF {entry.scores[1]}</span>
+            </>
+          )}
+          {entry.provider && <span className="font-mono text-[10px] uppercase tracking-wider text-faint">via {entry.provider}</span>}
+        </div>
       </div>
     </article>
   );
@@ -66,8 +96,8 @@ function EntryShell({ entry, dim, children }: { entry: EntryData; dim?: boolean;
 
 function textClass(speaker: Speaker) {
   return speaker === "judge"
-    ? "text-base leading-relaxed text-ink/90 sm:text-lg"
-    : "font-serif text-[1.6rem] leading-[1.25] text-ink sm:text-[2rem]";
+    ? "mt-2 text-base leading-relaxed text-ink/90 sm:text-lg"
+    : "mt-2 text-[1.3rem] font-medium leading-snug tracking-tight text-ink sm:text-[1.65rem]";
 }
 
 export function StaticEntry({ entry, dim }: { entry: EntryData; dim?: boolean }) {
@@ -145,11 +175,35 @@ export function LiveEntry({
   }, [typed, speechDone, paused, holdMs, reduce, entry.text.length]);
 
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} aria-live="polite">
-      <EntryShell entry={{ ...entry, provider: typed ? entry.provider : undefined }}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 14, scale: 0.985 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
+      aria-live="polite"
+      className="scroll-mt-56"
+    >
+      <EntryShell live entry={{ ...entry, provider: typed ? entry.provider : undefined, scores: typed ? entry.scores : undefined }}>
         <p className={`${textClass(entry.speaker)} ${started && !typed ? "caret" : ""}`}>{withEvidence(entry.text.slice(0, count))}</p>
       </EntryShell>
     </motion.div>
+  );
+}
+
+/** Pixel loader: three blocks lighting up in turn. */
+export function PixelLoader({ color }: { color: string }) {
+  return (
+    <span className="inline-flex gap-1" aria-hidden>
+      {[0, 1, 2].map((i) => (
+        <motion.span
+          key={i}
+          className="h-2 w-2"
+          style={{ background: color }}
+          animate={{ opacity: [0.15, 1, 0.15] }}
+          transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.15, ease: "linear" }}
+        />
+      ))}
+    </span>
   );
 }
 
@@ -157,21 +211,15 @@ export function LiveEntry({
 export function PendingEntry({ speaker, text }: { speaker: Speaker; text: string }) {
   const p = PARTY[speaker];
   return (
-    <div className="grid gap-x-6 gap-y-2 border-t border-line py-7 sm:grid-cols-[7.5rem_1fr]">
-      <p className={`font-mono text-[11px] uppercase tracking-wide ${p.text}`}>{p.name}</p>
-      <p className="flex items-center gap-3 text-muted">
-        {text}
-        <span className="flex gap-1" aria-hidden>
-          {[0, 1, 2].map((i) => (
-            <motion.span
-              key={i}
-              className={`h-1 w-1 ${p.bg}`}
-              animate={{ opacity: [0.15, 1, 0.15] }}
-              transition={{ duration: 1.1, repeat: Infinity, delay: i * 0.18 }}
-            />
-          ))}
-        </span>
-      </p>
+    <div className="flex items-center gap-4 rounded-xl border border-dashed border-line-strong p-4 sm:gap-5 sm:p-6">
+      <PartyAvatar speaker={speaker} />
+      <div>
+        <p className={`text-sm font-semibold ${p.text}`}>{p.name}</p>
+        <p className="mt-1 flex items-center gap-3 text-muted">
+          {text}
+          <PixelLoader color={p.color} />
+        </p>
+      </div>
     </div>
   );
 }

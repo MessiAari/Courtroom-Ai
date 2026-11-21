@@ -1,4 +1,6 @@
 // Shown when API keys are missing. Lists which env variables are set — never their values.
+import { PixelArt } from "@/components/ui/PixelArt";
+import { GAVEL, GAVEL_COLORS } from "@/components/ui/pixel-icons";
 import type { EnvStatus } from "@/lib/env";
 
 const KEYS = [
@@ -9,9 +11,9 @@ const KEYS = [
 
 export function SetupScreen({ status }: { status: EnvStatus }) {
   return (
-    <div className="mx-auto max-w-6xl px-5 pt-14">
-      <p className="label">Setup required</p>
-      <h1 className="mt-4 max-w-3xl font-serif text-5xl leading-none sm:text-6xl">
+    <div className="mx-auto max-w-5xl px-5 pt-14 sm:px-8 sm:pt-20">
+      <p className="label">Setup</p>
+      <h1 className="display mt-5 max-w-3xl text-5xl sm:text-7xl">
         {status.ready ? "The court is ready." : "The court is not in session yet."}
       </h1>
       <p className="mt-6 max-w-xl text-lg text-muted">
@@ -20,48 +22,38 @@ export function SetupScreen({ status }: { status: EnvStatus }) {
           : "Courtroom AI needs free API keys to run the debate. Add them as environment variables, then restart the server."}
       </p>
 
-      <table className="mt-14 w-full border-collapse text-left">
-        <thead>
-          <tr className="border-b border-line-strong font-mono text-[11px] uppercase tracking-wide text-faint">
-            <th className="py-3 font-normal">Variable</th>
-            <th className="py-3 font-normal">Status</th>
-            <th className="hidden py-3 font-normal sm:table-cell">Used for</th>
-            <th className="py-3 font-normal" />
-          </tr>
-        </thead>
-        <tbody>
-          {KEYS.map((k) => {
-            const set = status[k.flag];
-            return (
-              <tr key={k.key} className="border-b border-line align-top">
-                <td className="py-4 pr-4 font-mono text-sm text-ink">{k.key}</td>
-                <td className={`py-4 pr-4 font-mono text-xs uppercase ${set ? "text-ink" : "text-pros"}`}>{set ? "Set" : "Missing"}</td>
-                <td className="hidden py-4 pr-4 text-sm text-muted sm:table-cell">{k.who}</td>
-                <td className="py-4 text-right">
-                  <a href={k.url} target="_blank" rel="noreferrer" className="text-sm text-muted underline underline-offset-4 hover:text-ink">
-                    Get key
-                  </a>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <ul className="mt-14 grid gap-4 md:grid-cols-3">
+        {KEYS.map((k) => {
+          const set = status[k.flag];
+          return (
+            <li key={k.key} className={`flex flex-col rounded-2xl border p-6 ${set ? "border-line bg-surface" : "border-danger/40 bg-danger/[0.06]"}`}>
+              <div className="flex items-center justify-between">
+                <span className={`flex items-center gap-2 font-pixel text-xs uppercase ${set ? "text-accent" : "text-danger"}`}>
+                  <span className={`h-2 w-2 ${set ? "bg-accent" : "bg-danger"}`} /> {set ? "Set" : "Missing"}
+                </span>
+              </div>
+              <p className="mt-6 break-all font-mono text-sm text-ink">{k.key}</p>
+              <p className="mt-2 flex-1 text-sm text-muted">{k.who}</p>
+              <a href={k.url} target="_blank" rel="noreferrer" className="mt-5 text-sm font-medium text-accent hover:underline">
+                Get a free key →
+              </a>
+            </li>
+          );
+        })}
+      </ul>
 
-      <div className="mt-14 grid gap-4 border-t border-line pt-6 lg:grid-cols-[1fr_2.2fr]">
-        <p className="label">How to add them</p>
+      <div className="mt-4 flex flex-col gap-6 rounded-2xl border border-line bg-surface p-6 sm:flex-row sm:p-8">
+        <PixelArt bitmap={GAVEL} colors={GAVEL_COLORS} className="h-12 w-12 shrink-0" />
         <ol className="space-y-3 text-muted">
           <li>
-            <span className="text-ink">Locally —</span> copy <code className="font-mono text-sm text-ink">.env.example</code> to{" "}
-            <code className="font-mono text-sm text-ink">.env.local</code>, paste your keys, restart{" "}
-            <code className="font-mono text-sm text-ink">npm run dev</code>.
+            <span className="font-semibold text-ink">Locally:</span> copy <code className="font-mono text-sm text-accent">.env.example</code> to{" "}
+            <code className="font-mono text-sm text-accent">.env.local</code>, paste your keys, restart <code className="font-mono text-sm text-accent">npm run dev</code>.
           </li>
           <li>
-            <span className="text-ink">On Vercel —</span> Project → Settings → Environment Variables → add each key → Redeploy.
+            <span className="font-semibold text-ink">On Vercel:</span> Project → Settings → Environment Variables → add each key → Redeploy.
           </li>
           <li>
-            <span className="text-ink">Minimum —</span> a Groq key alone can play all three roles. Add Gemini for the Judge and
-            Mistral as a backup.
+            <span className="font-semibold text-ink">Minimum:</span> a Groq key alone can play all three roles. Add Gemini for the Judge and Mistral as a backup.
           </li>
         </ol>
       </div>

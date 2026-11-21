@@ -5,7 +5,7 @@
 // verdict arrives, the judgment and the Ask the Judge chat.
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import { ButtonLink, buttonClass } from "@/components/ui/primitives";
 import { motion, useAnimationControls } from "framer-motion";
 import type { DebateMode, Emotion, Phase, Side, Speaker } from "@/lib/types";
 import { useDebate, type StepResult } from "@/lib/debate/useDebate";
@@ -49,6 +49,7 @@ function toEntries(results: StepResult[]): EntryData[] {
         text: `${objection}${outcome}: Prosecution ${s.prosecutorScore}, Defence ${s.defenderScore}.`,
         provider: s.provider,
         fallacy: s.fallacy,
+        scores: [s.prosecutorScore, s.defenderScore],
       });
     }
   });
@@ -170,25 +171,25 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
   // ── Judgment view ─────────────────────────────────────────────
   if (verdict) {
     return (
-      <div className="mx-auto max-w-6xl px-5 pb-10">
+      <div className="mx-auto max-w-7xl px-5 pb-10 sm:px-8">
         <Judgment verdict={verdict} topic={topic} mode={mode} />
         <AskTheJudge topic={topic} caseId={caseId} turns={debate.turns} scores={debate.scores} verdict={verdict} />
-        <details className="group mt-16 border-t border-line">
-          <summary className="flex cursor-pointer list-none items-center justify-between py-5">
+        <details className="group mt-16 rounded-xl border border-line">
+          <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4 transition-colors hover:bg-white/[0.02]">
             <span className="label">Full record · {entries.length + 1} entries</span>
-            <span className="text-sm text-muted group-open:hidden">Show</span>
-            <span className="hidden text-sm text-muted group-open:inline">Hide</span>
+            <span className="text-sm text-muted group-open:hidden">Show +</span>
+            <span className="hidden text-sm text-muted group-open:inline">Hide −</span>
           </summary>
-          <StaticEntry entry={intro} />
-          {entries.map((e) => (
-            <StaticEntry key={e.id} entry={e} />
-          ))}
+          <div className="space-y-2 border-t border-line p-2 sm:p-4">
+            <StaticEntry entry={intro} />
+            {entries.map((e) => (
+              <StaticEntry key={e.id} entry={e} />
+            ))}
+          </div>
         </details>
-        <div className="mt-10 flex flex-wrap gap-x-8 gap-y-4 border-t border-line pt-8">
-          <Link href="/file" className="bg-ink px-6 py-3 text-sm font-medium text-bg hover:bg-brass">
-            File a new case →
-          </Link>
-          <button onClick={restart} className="text-sm text-muted underline-offset-4 hover:text-ink hover:underline">
+        <div className="mt-10 flex flex-wrap gap-3">
+          <ButtonLink href="/file">File a new case</ButtonLink>
+          <button onClick={restart} className={buttonClass("secondary")}>
             Re-hear this case
           </button>
         </div>
@@ -202,34 +203,38 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
       <ObjectionBand by={objection?.by ?? null} type={objection?.type} />
 
       {/* Case caption */}
-      <div className="mx-auto max-w-6xl px-5 pt-10">
-        <p className="label">
-          In session · {mode === "full" ? "Full hearing" : "Quick hearing"}
-          {caseId ? " · From the case library" : ""}
-        </p>
-        <h1 className="mt-4 max-w-4xl font-serif text-4xl leading-[1.05] sm:text-6xl">{topic}</h1>
-        <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <RoundProgress phases={phases} done={shownScores.map((s) => s.phase)} current={currentPhase} />
-          <Controls
-            paused={paused}
-            canPause={status === "running"}
-            canSkip={debate.canSkip}
-            voiceOn={voiceOn}
-            onPause={debate.pause}
-            onResume={debate.resume}
-            onSkip={debate.skip}
-            onRestart={restart}
-            onToggleVoice={() => setVoiceOn((v) => !v)}
-          />
+      <div className="relative overflow-hidden border-b border-line">
+        <div className="grid-lines absolute inset-0" aria-hidden />
+        <div className="relative mx-auto max-w-7xl px-5 pb-8 pt-10 sm:px-8 sm:pt-14">
+          <p className="label flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 text-accent">
+              <span className="h-1.5 w-1.5 animate-pulse bg-accent" /> In session
+            </span>
+            · {mode === "full" ? "Full hearing" : "Quick hearing"}
+            {caseId ? " · From the case library" : ""}
+          </p>
+          <h1 className="display mt-5 max-w-5xl text-4xl sm:text-6xl lg:text-7xl">{topic}</h1>
+          <div className="mt-8 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <RoundProgress phases={phases} done={shownScores.map((s) => s.phase)} current={currentPhase} />
+            <Controls
+              paused={paused}
+              canPause={status === "running"}
+              canSkip={debate.canSkip}
+              voiceOn={voiceOn}
+              onPause={debate.pause}
+              onResume={debate.resume}
+              onSkip={debate.skip}
+              onRestart={restart}
+              onToggleVoice={() => setVoiceOn((v) => !v)}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Sticky docket bar */}
-      <div className="sticky top-14 z-30 mt-8 border-y border-line bg-bg/95 backdrop-blur-sm">
-        <div className="mx-auto max-w-6xl px-5 pt-3">
+      {/* Sticky bench bar: credibility meter + parties */}
+      <div className="sticky top-14 z-30 border-b border-line bg-bg/90 backdrop-blur-md">
+        <div className="mx-auto max-w-7xl space-y-3 px-5 py-3 sm:px-8">
           <CredibilityScale scores={shownScores} />
-        </div>
-        <div className="mx-auto mt-3 max-w-6xl px-3 sm:px-1">
           <Roster
             status={{ prosecutor: partyStatus("prosecutor"), judge: partyStatus("judge"), defender: partyStatus("defender") }}
             emotions={emotions}
@@ -238,48 +243,54 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
       </div>
 
       {/* The record */}
-      <motion.div animate={shake} className="mx-auto max-w-6xl px-5 pt-4">
-        <div className="flex items-center justify-between py-3">
+      <motion.div animate={shake} className="mx-auto max-w-7xl px-3 pt-6 sm:px-6">
+        <div className="flex items-center justify-between px-2 pb-3">
           <p className="label">The record</p>
           {pastEntries.length > 0 && introDone && (
-            <button onClick={() => setFullRecord((f) => !f)} className="label underline-offset-4 hover:text-ink hover:underline">
+            <button onClick={() => setFullRecord((f) => !f)} className="label transition-colors hover:text-ink">
               {fullRecord ? "Show current only" : `Show full record (${pastEntries.length + 1})`}
             </button>
           )}
         </div>
 
-        {!introDone ? (
-          <LiveEntry entry={intro} paused={paused} voiceOn={voiceOn} holdMs={900} onDone={() => setIntroDone(true)} />
-        ) : (
-          <>
-            {fullRecord && (
-              <>
-                <StaticEntry entry={intro} dim />
-                {pastEntries.map((e) => (
-                  <StaticEntry key={e.id} entry={e} dim />
-                ))}
-              </>
-            )}
-            {liveEntry && current ? (
-              <LiveEntry
-                key={liveEntry.id}
-                entry={liveEntry}
-                paused={paused}
-                voiceOn={voiceOn}
-                startDelay={fallacy ? 1800 : 0}
-                holdMs={liveEntry.speaker === "judge" ? 1500 : 1800}
-                onDone={debate.markShown}
-              />
-            ) : status === "recess" ? (
-              <RecessNotice code={debate.error} onRetry={debate.retry} />
-            ) : (
-              <PendingEntry speaker={upcomingSpeaker ?? "judge"} text={paused ? "Court adjourned — paused" : pendingText} />
-            )}
-          </>
-        )}
+        <div className="space-y-2">
+          {!introDone ? (
+            <LiveEntry entry={intro} paused={paused} voiceOn={voiceOn} holdMs={900} onDone={() => setIntroDone(true)} />
+          ) : (
+            <>
+              {fullRecord && (
+                <>
+                  <StaticEntry entry={intro} dim />
+                  {pastEntries.map((e) => (
+                    <StaticEntry key={e.id} entry={e} dim />
+                  ))}
+                </>
+              )}
+              {liveEntry && current ? (
+                <LiveEntry
+                  key={liveEntry.id}
+                  entry={liveEntry}
+                  paused={paused}
+                  voiceOn={voiceOn}
+                  startDelay={fallacy ? 1800 : 0}
+                  holdMs={liveEntry.speaker === "judge" ? 1500 : 1800}
+                  onDone={debate.markShown}
+                />
+              ) : status === "recess" ? (
+                <RecessNotice code={debate.error} onRetry={debate.retry} />
+              ) : (
+                <PendingEntry speaker={upcomingSpeaker ?? "judge"} text={paused ? "Court adjourned — paused" : pendingText} />
+              )}
+            </>
+          )}
 
-        {status === "recess" && liveEntry && <RecessNotice code={debate.error} onRetry={debate.retry} />}
-        {paused && <p className="label border-t border-line py-4 text-brass">Court adjourned — press Resume to continue</p>}
+          {status === "recess" && liveEntry && <RecessNotice code={debate.error} onRetry={debate.retry} />}
+        </div>
+        {paused && (
+          <p className="mt-4 rounded-lg border border-accent/40 bg-accent/[0.06] px-4 py-3 text-sm text-accent">
+            Court adjourned — press Resume to continue.
+          </p>
+        )}
       </motion.div>
     </div>
   );
