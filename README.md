@@ -19,25 +19,25 @@ People usually see only one side of an issue. College students struggle in place
 
 | Area | What it does |
 |---|---|
-| **Landing page** | Editorial hero with a sample court record, "How a hearing works", the three parties, cases on the docket |
-| **File a case** | Type any topic or pick from the **Case Library**; choose **Quick** (Opening → Rebuttal → Verdict) or **Full** (+ Cross-examination + Closing) |
-| **Hearing (debate room)** | Agents debate autonomously, round by round, as a numbered **live court record**. Each statement types itself out; a sticky docket bar shows who is speaking / preparing and the AI's `emotion` |
-| **Credibility scale** | Hairline tug-of-war scale that shifts after each Judge score |
-| **Objection** | Full-width red band + small shake when the Judge detects a fallacy (the quote is verified against the transcript first) |
+| **Landing page** | Headline with an inline pixel scales icon, a flickering pixel-grid background, a live-looking sample hearing, a clickable topic marquee, "How a hearing works", the three parties, a feature bento grid, cases on the docket |
+| **File a case** | Type any topic or pick from the **Case Library** (8 researched cases, each with 3 sourced facts for and 3 against); choose **Quick** (Opening → Rebuttal → Verdict) or **Full** (+ Cross-examination + Closing) |
+| **Hearing (debate room)** | Agents debate autonomously, round by round, as a numbered live record. Each statement types itself out; a sticky bench bar shows who is speaking / preparing and the AI's `emotion`; pixel sword (Prosecution), scales (Judge) and shield (Defence) avatars |
+| **Credibility health bar** | Retro fighting-game health bars (red vs blue, "VS" in the middle): the trailing side loses blocks after each Judge score |
+| **OBJECTION!** | Full-width jade pixel band + small shake when the Judge detects a fallacy (the quote is verified against the transcript first) |
 | **Controls** | Round progress, pause/resume, skip to judgment, restart, collapsible record ("show current only" — the default on phones) |
 | **Voices** | Different voice and pitch per character via the free browser Web Speech API (muted by default) |
-| **Judgment** | Presented like a printed judgment: gavel → "The court finds for…" + stamp → schedule of scores (overall + reasoning/evidence/rebuttal/logic) → findings, neutral summary, GD points, shareable card |
+| **Judgment** | Pixel gavel strikes → full-colour winner panel with tipping pixel scales and a pixel rubber stamp → pixel block score bars (overall + reasoning/evidence/rebuttal/logic) → findings, neutral summary, GD-point cards, shareable card |
 | **Ask the Judge** | Chatbot with the full transcript + verdict as context; suggested-question chips, history, loading state, clear chat, retry on error |
 | **How we built this** | Reads our `/prompts` folder and shows every prompt as a card (author, tool, techniques, before/after, result) |
 | **Error handling** | Input validation ("Case dismissed: …"), provider fallback, "The court is in recess" + Retry, setup screen when keys are missing, no raw errors shown |
 | **History** | Last 8 verdicts saved in localStorage (optional) |
-| **Responsive** | Single-column record on phones with a compact sticky docket; no horizontal scroll; respects `prefers-reduced-motion` |
+| **Responsive** | Tested at 375 px: compact sticky bench bar, "current statement only" view by default, no horizontal scroll; respects `prefers-reduced-motion` |
 
 ## Tech stack
 
 - **Next.js 16** (App Router) + **TypeScript** + **Tailwind CSS v4**
 - **Framer Motion** (animation), **Lucide React** (icons)
-- Type: **Instrument Serif** (statements), **Geist** (UI), **Geist Mono** (docket metadata)
+- Design: **"Jade bench"** palette (jade Judge, red Prosecution, blue Defence) on near-black; type in **Geist**, **Geist Mono** and the pixel font **Silkscreen**; pixel art drawn in code (`components/ui/pixel-icons.ts`)
 - **zod** (validating AI JSON), **gray-matter** + **react-markdown** (prompt log page)
 - **@google/genai** for Gemini; Groq and Mistral are called with plain `fetch` (both use the OpenAI-style chat API)
 - Hosted on **Vercel**. No database — localStorage only.
@@ -112,13 +112,15 @@ app/                     pages + API routes
   api/debate/turn|judge|verdict, api/judge-chat
   courtroom/  file/  how-we-built-this/  setup/
 components/
-  courtroom/             Courtroom (hearing), Record (live entries + typewriter), Docket (scale, roster, controls, objection)
+  courtroom/             Courtroom (hearing), Record (live entries + typewriter), Docket (health bar, roster, controls, objection)
+  ui/                    PixelArt + pixel-icons, PixelMeter (health bar), FlickeringGrid, primitives (buttons, steps, marquee, spotlight card)
   verdict/Judgment  chat/AskTheJudge  landing/  prompts/
 lib/
   ai/                    provider.ts, groq.ts, mistral.ts, gemini.ts, prompts.ts, schemas.ts, parse.ts, agents.ts
   debate/                rounds.ts, transcript.ts, useDebate.ts (the debate loop)
   validation.ts, cases.ts, speech.ts, history.ts, env.ts
-data/cases/*.json        Case Library
+data/cases/*.json        Case Library (8 researched cases)
+docs/research-report.md  Perplexity research report
 prompts/  PROMPTS.md     our prompt history (shown on /how-we-built-this)
 ```
 
@@ -127,7 +129,7 @@ prompts/  PROMPTS.md     our prompt history (shown on /how-we-built-this)
 See [`PROMPTS.md`](PROMPTS.md) for every prompt, which tool it went to, and how it was refined. Summary:
 
 - **Claude (Claude Code):** architecture plan, all application code, agent prompts, prompt log.
-- **Perplexity:** researched facts and sources for the Case Library _(to be added)_.
+- **Perplexity:** the research report in [`docs/research-report.md`](docs/research-report.md): the GD problem, debate formats, judging rubric, common fallacies, and the 8-case library with sourced FOR/AGAINST facts.
 - **ChatGPT / Gemini:** _(to be added by the team)_.
 
 ## Troubleshooting

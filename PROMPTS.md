@@ -13,6 +13,9 @@ Every prompt we used to build this project, across all AI tools. Each row links 
 | [004](prompts/004-design-pivot-no-characters.md) | Design pivot: cartoon characters → emblem courtroom | Aaritra Kumar | Claude | Refinement, Response evaluation, Reverse prompting | 2026-11-20 |
 | [005](prompts/005-professional-redesign.md) | Redesign: make it look designer-made, not AI-made | Aaritra Kumar | Claude | Response evaluation, Refinement, Constraints | 2026-11-20 |
 | [006](prompts/006-real-api-testing.md) | Test with real API keys (and the Gemini bug it found) | Aaritra Kumar | Claude | Response evaluation, Chain | 2026-11-21 |
+| [007](prompts/007-mistral-inspired-redesign.md) | Redesign: visually striking, modern and interactive | Aaritra Kumar | Claude | Role-based, Context-based, Structured, Constraints, Chain | 2026-11-21 |
+| [008](prompts/008-jade-bench-palette.md) | Make the pixel style our own: Jade bench palette | Aaritra Kumar | Claude | Response evaluation, Refinement, Constraints, Chain | 2026-11-21 |
+| [009](prompts/009-perplexity-research.md) | Research report: GD problem, formats, rubric, fallacies, case library | TBD | Perplexity | Context-based, Structured, Constraints | 2026-11-21 |
 
 ## AI tools used (guideline 2.3: at least three)
 
@@ -20,7 +23,7 @@ Every prompt we used to build this project, across all AI tools. Each row links 
 |---|---|---|
 | Claude (Claude Code) | Aaritra | Architecture plan, all app code, agent system prompts, two design iterations, prompt log |
 | _ChatGPT_ | _TBD_ | _fill in_ |
-| _Perplexity_ | _TBD_ | _fill in (e.g. researched facts for the Case Library)_ |
+| Perplexity | _TBD_ | Research report ([docs/research-report.md](docs/research-report.md)): the GD problem, debate formats, judging rubric, fallacies, and the 8-case library with sourced facts for and against |
 
 ## Prompt-engineering techniques (guideline 2.4)
 

@@ -3,11 +3,14 @@
 College Prompt Engineering final project (JECRC University). Team: **Aaritra Kumar** (Aari, main user here), **Tanushree**, **Rounak**.
 The full build brief is prompt 001: `prompts/001-initial-project-prompt.md`. Follow its constraints and build order.
 
-## Design (decided in prompts 004–005)
-- Concept: **the court record** — editorial, restrained. Warm near-black (`bg`), ink text, one brass accent; `pros` red / `def` blue only mark the sides.
-- Type: Instrument Serif (statements, headlines), Geist (UI), Geist Mono (`.label` docket metadata).
-- Avoid: glows, gradients, halos, pill buttons, icon-in-circle emblems, cartoon characters, emoji. Use hairline rules (`border-line`) and sharp rectangles.
-- Tokens live in `app/globals.css` (`@theme`). Party colours/names in `lib/speakers.ts`.
+## Design (decided in prompts 007–008)
+- **"Jade bench" retro court game.** Near-black canvas, heavy Geist headlines, Silkscreen pixel font for numbers/stamps/OBJECTION!, hairline grid cells.
+- Colours: jade ramp (`jade-200…700`, `accent`) for the Judge and accents; `pros` red `#E5484D` = Prosecution; `def` blue `#3E8BFF` = Defence; `danger` red for errors. **No orange or yellow** — the earlier Mistral-like orange/yellow was rejected as copying their brand.
+- Pixel art is drawn in code from bitmaps in `components/ui/pixel-icons.ts` (scales, sword, shield, gavel, stamp, heart, bubble). Credibility = fighting-game health bar (`components/ui/PixelMeter.tsx`).
+- Tokens in `app/globals.css` (`@theme`); party names/colours/icons in `lib/speakers.ts`.
+
+## Research
+- Perplexity report: `docs/research-report.md`. Case Library facts in `data/cases/*.json` carry `side: "for" | "against"`.
 
 ## Prompt logging (mandatory, every session)
 
