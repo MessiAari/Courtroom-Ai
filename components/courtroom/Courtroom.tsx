@@ -157,7 +157,8 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
     no: 1,
     speaker: "judge",
     label: "Opening of court",
-    text: `Order. The court will hear the case: “${topic}”. The Prosecution argues for the motion, the Defence against. Prosecution, you may begin.`,
+    // Don't add a full stop after a topic that already ends in "?", "!" or ".".
+    text: `Order. The court will hear the case: “${topic}”${/[.?!]$/.test(topic) ? "" : "."} The Prosecution argues for the motion, the Defence against. Prosecution, you may begin.`,
   };
 
   const restart = () => {

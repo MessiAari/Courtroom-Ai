@@ -8,7 +8,8 @@ export const gemini: Provider = {
   name: "Gemini",
   isConfigured: () => Boolean(process.env.GEMINI_API_KEY),
   async generate(options: GenerateOptions) {
-    client ??= new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+    // The SDK defaults to the "v1" API, where preview Flash models aren't available — use v1beta.
+    client ??= new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY!, httpOptions: { apiVersion: "v1beta" } });
     const call = client.models.generateContent({
       model: process.env.GEMINI_MODEL || "gemini-3-flash-preview",
       // Gemini calls the assistant role "model".
