@@ -8,7 +8,7 @@ import { compactScores, compactTranscript } from "@/lib/debate/transcript";
 export const maxDuration = 60;
 
 export async function POST(request: Request) {
-  const body = await readBody(request, verdictRequest);
+  const body = await readBody(request, verdictRequest, "debate");
   if ("response" in body) return body.response;
   const { topic, transcript, scores } = body.data;
   if (transcript.length < 2) return Response.json({ error: "invalid_input" }, { status: 400 });

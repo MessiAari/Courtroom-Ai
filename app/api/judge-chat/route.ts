@@ -11,7 +11,7 @@ const MAX_QUESTION = 500;
 const MAX_HISTORY = 12; // only the latest messages are sent, to save tokens
 
 export async function POST(request: Request) {
-  const body = await readBody(request, chatRequest);
+  const body = await readBody(request, chatRequest, "chat");
   if ("response" in body) return body.response;
   const { topic, transcript, scores, verdict, messages } = body.data;
 

@@ -21,13 +21,14 @@ Every prompt we used to build this project, across all AI tools. Each row links 
 | [012](prompts/012-perplexity-case-library.md) | Case Library: 8 cases with sourced facts for and against | Rounak | Perplexity | Role-based, Context-based, Structured, Constraints | 2026-11-21 |
 | [013](prompts/013-chatgpt-gilded-redesign.md) | Redesign brief written by ChatGPT: hero, sample hearing, pixel-art courtroom | Tanushree | Claude (prompt written by ChatGPT) | Structured, Constraints, Context-based, Refinement | 2026-11-21 |
 | [014](prompts/014-chatgpt-hero-courtroom.md) | Hero-only brief written by ChatGPT: a living pixel courtroom | Tanushree | Claude (prompt written by ChatGPT) | Structured, Constraints, Refinement | 2026-11-21 |
+| [015](prompts/015-chatgpt-security-hardening.md) | Security audit and hardening brief written by ChatGPT | Tanushree | Claude (prompt written by ChatGPT) | Structured, Chain, Constraints, Response evaluation | 2026-11-21 |
 
 ## AI tools used (guideline 2.3: at least three)
 
 | Tool | Used by | What it did for the project |
 |---|---|---|
 | Claude (Claude Code) | Aaritra | Architecture plan, all app code, agent system prompts, two design iterations, prompt log |
-| ChatGPT | Tanushree | Turned our rough first prompt into a detailed spec (001), which we edited into the build prompt (002); critiqued and rewrote our redesign prompt (008); wrote the pixel-art courtroom redesign brief (013) and the hero brief (014) |
+| ChatGPT | Tanushree | Turned our rough first prompt into a detailed spec (001), which we edited into the build prompt (002); critiqued and rewrote our redesign prompt (008); wrote the pixel-art courtroom redesign brief (013) the hero brief (014) and the security brief (015) |
 | Perplexity | Rounak | Research report (011) ([docs/research-report.md](docs/research-report.md)): the GD problem, debate formats, judging rubric, fallacies, and the 8-case library with sourced facts for and against (012) |
 
 ## Prompt-engineering techniques (guideline 2.4)

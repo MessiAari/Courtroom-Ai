@@ -12,6 +12,7 @@ import {
   JUDGE_ROUND_SYSTEM,
   JUDGE_VERDICT_SYSTEM,
   MAX_TURN_WORDS,
+  dataBlock,
   judgeChatSystemPrompt,
   judgeRoundUserPrompt,
   lawyerSystemPrompt,
@@ -127,7 +128,8 @@ export async function judgeChat(p: {
 }) {
   return generateWithFallback(JUDGE_CHAIN, {
     system: judgeChatSystemPrompt({ topic: p.topic, transcript: p.transcript, scores: p.scoresText, verdict: p.verdictJson }),
-    messages: p.messages,
+    // SECURITY: the student's text is wrapped as data, so "ignore your rules…" is read as a question, not an order.
+    messages: p.messages.map((m) => (m.role === "user" ? { role: "user" as const, content: dataBlock("question", m.content) } : m)),
     maxTokens: 700,
     temperature: 0.5,
   });

@@ -8,7 +8,7 @@ import { compactTranscript } from "@/lib/debate/transcript";
 export const maxDuration = 60;
 
 export async function POST(request: Request) {
-  const body = await readBody(request, judgeRequest);
+  const body = await readBody(request, judgeRequest, "debate");
   if ("response" in body) return body.response;
   const { topic, transcript, phase } = body.data;
 

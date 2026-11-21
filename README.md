@@ -31,6 +31,7 @@ People usually see only one side of an issue. College students struggle in place
 | **Ask the Judge** | Chatbot with the full transcript + verdict as context; suggested-question chips, history, loading state, clear chat, retry on error |
 | **How we built this** | Reads our `/prompts` folder and shows every prompt as a card (author, tool, techniques, before/after, result) |
 | **Error handling** | Input validation ("Case dismissed: …"), provider fallback, "The court is in recess" + Retry, setup screen when keys are missing, no raw errors shown |
+| **Security** | Per-IP rate limiting, strict request validation (JSON only, 64 KB, typed and length-capped fields), user text sent to the AI as tagged data with anti-injection rules for every agent, "Case dismissed" for injection attempts and harmful topics, security headers (CSP, no framing). Audit and before-vs-after results: [`docs/security/SECURITY.md`](docs/security/SECURITY.md) |
 | **History** | Last 8 verdicts saved in localStorage (optional) |
 | **Responsive** | Tested at 375 px: compact sticky bench bar, "current statement only" view by default, no horizontal scroll; respects `prefers-reduced-motion` |
 
