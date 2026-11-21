@@ -3,10 +3,10 @@
 College Prompt Engineering final project (JECRC University). Team: **Aaritra Kumar** (Aari, main user here), **Tanushree**, **Rounak**.
 The full build brief is prompt 002: `prompts/002-initial-project-prompt.md`. Follow its constraints and build order.
 
-## Design (decided in prompts 009–010)
-- **"Jade bench" retro court game.** Near-black canvas, heavy Geist headlines, Silkscreen pixel font for numbers/stamps/OBJECTION!, hairline grid cells.
-- Colours: jade ramp (`jade-200…700`, `accent`) for the Judge and accents; `pros` red `#E5484D` = Prosecution; `def` blue `#3E8BFF` = Defence; `danger` red for errors. **No orange or yellow** — the earlier Mistral-like orange/yellow was rejected as copying their brand.
-- Pixel art is drawn in code from bitmaps in `components/ui/pixel-icons.ts` (scales, sword, shield, gavel, stamp, heart, bubble). Credibility = fighting-game health bar (`components/ui/PixelMeter.tsx`).
+## Design (decided in prompts 009–010, palette and characters changed in 013)
+- **"Gilded bench" miniature pixel-art court game.** Charcoal canvas with film grain (`body::after`) and warm ambient light (`.ambient`), heavy Geist headlines, Silkscreen pixel font for numbers/stamps/OBJECTION!, hairline grid cells.
+- Colours (prompt 013, chosen by the team): bg `#101114`, surface `#1B1A20`, ivory text `#E8DFCE`; **Judge gold `#C89B55`** (`gold-200…700`, `accent`); **Prosecution electric blue `#628BFF`** (`pros`); **Defence muted red `#E16B64`** (`def`); `danger` red for errors. Avoid heavy gradients and clutter.
+- Pixel characters are drawn in code: `components/court/sprites.ts` (bitmaps + emotion faces), `CourtScene.tsx` (the live courtroom driven by debate state), `Cast.tsx` (portraits). Icons in `components/ui/pixel-icons.ts`. Credibility = fighting-game health bar (`components/ui/PixelMeter.tsx`).
 - Tokens in `app/globals.css` (`@theme`); party names/colours/icons in `lib/speakers.ts`.
 
 ## Research

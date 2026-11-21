@@ -14,7 +14,7 @@ import { Arrow, SpotlightCard, buttonClass } from "@/components/ui/primitives";
 
 const WINNER = { prosecutor: "Prosecution", defender: "Defence", draw: "Drawn" } as const;
 const WINNER_COLOR = { prosecutor: "text-pros", defender: "text-def", draw: "text-accent" } as const;
-const SPECTRUM = ["#6EE7B7", "#10B981", "#059669"];
+const SPECTRUM = ["#E6C88F", "#A97C3E", "#8A6330"];
 
 function Step({ n, title, hint, children }: { n: string; title: string; hint?: string; children: React.ReactNode }) {
   return (
@@ -93,7 +93,7 @@ export function FileCaseForm({ cases, initialCaseId, initialTopic }: { cases: Ca
               <span className="hidden h-1.5 w-24 overflow-hidden bg-line sm:block" aria-hidden>
                 <span
                   className="block h-full transition-all duration-300"
-                  style={{ width: `${Math.min(100, (length / CASE_MAX) * 100)}%`, background: length > CASE_MAX ? "#047857" : "#34D399" }}
+                  style={{ width: `${Math.min(100, (length / CASE_MAX) * 100)}%`, background: length > CASE_MAX ? "#6B4C24" : "#C89B55" }}
                 />
               </span>
               <span className={`font-pixel text-xs tabular-nums ${length > CASE_MAX ? "text-danger" : "text-faint"}`}>

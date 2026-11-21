@@ -14,7 +14,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-line bg-bg/85 backdrop-blur-md">
       <nav className="flex h-14 items-stretch" aria-label="Main">
         <Link href="/" className="group flex items-center gap-2.5 border-r border-line px-4 sm:px-5">
-          <PixelArt bitmap={SCALES} colors={{ a: "#34D399", b: "#059669" }} className="h-5 w-5 transition-transform duration-300 group-hover:-rotate-6" />
+          <PixelArt bitmap={SCALES} colors={{ a: "#C89B55", b: "#8A6330" }} className="h-5 w-5 transition-transform duration-300 group-hover:-rotate-6" />
           <span className="text-[15px] font-semibold tracking-tight">Courtroom AI</span>
         </Link>
         <ul className="hidden items-stretch md:flex">

@@ -16,6 +16,7 @@ import { LiveEntry, PendingEntry, StaticEntry, type EntryData } from "./Record";
 import { Controls, CredibilityScale, ObjectionBand, RecessNotice, Roster, RoundProgress, type PartyStatus } from "./Docket";
 import { Judgment } from "@/components/verdict/Judgment";
 import { AskTheJudge } from "@/components/chat/AskTheJudge";
+import { CourtScene, type SceneState } from "@/components/court/CourtScene";
 
 const KIND_LABEL = { statement: "", question: " · Question", answer: " · Answer" } as const;
 
@@ -162,6 +163,26 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
     text: `Order. The court will hear the case: “${topic}”${/[.?!]$/.test(topic) ? "" : "."} The Prosecution argues for the motion, the Defence against. Prosecution, you may begin.`,
   };
 
+  // State for the pixel-art courtroom scene.
+  const roundNo = currentPhase && currentPhase !== "verdict" ? phases.indexOf(currentPhase) + 1 : 0;
+  const scene: SceneState = {
+    speaking,
+    preparing,
+    emotions,
+    banner: !introDone
+      ? null
+      : currentPhase === "verdict"
+        ? "Judgment"
+        : currentPhase
+          ? `Round ${String(roundNo).padStart(2, "0")} · ${PHASE_LABEL[currentPhase]}`
+          : null,
+    objection: objection?.by ?? null,
+    ruling: introDone && current?.kind === "score" ? { key: `r${index}`, pros: current.score.prosecutorScore, def: current.score.defenderScore } : null,
+    paused,
+    recess: status === "recess",
+    deliberating: upcoming?.type === "verdict" && debate.fetching,
+  };
+
   const restart = () => {
     stopSpeaking();
     setIntroDone(false);
@@ -243,7 +264,16 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
       </div>
 
       {/* The record */}
-      <motion.div animate={shake} className="mx-auto max-w-7xl px-3 pt-6 sm:px-6">
+      <motion.div
+        animate={shake}
+        className="mx-auto grid max-w-7xl gap-6 px-3 pt-6 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start"
+      >
+        {/* The pixel courtroom reacts to the live debate state; it stays in view on desktop. */}
+        <div className="lg:sticky lg:top-[11rem]">
+          <CourtScene state={scene} />
+        </div>
+
+        <div className="min-w-0">
         <div className="flex items-center justify-between px-2 pb-3">
           <p className="label">The record</p>
           {pastEntries.length > 0 && introDone && (
@@ -291,6 +321,7 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
             Court adjourned — press Resume to continue.
           </p>
         )}
+        </div>
       </motion.div>
     </div>
   );

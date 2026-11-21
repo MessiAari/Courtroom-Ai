@@ -1,7 +1,7 @@
 // Credibility meter drawn as a retro fighting-game health bar.
 // Both sides start at full health. Whenever the Judge scores one side ahead,
 // the trailing side loses blocks — the bigger the gap, the more it loses.
-// Red = Prosecution (left), blue = Defence (right), "VS" in the middle.
+// Blue = Prosecution (left), red = Defence (right), "VS" in the middle.
 
 import { PixelArt } from "./PixelArt";
 import { HEART } from "./pixel-icons";
@@ -30,7 +30,7 @@ function Bar({ filled, color, side }: { filled: number; color: string; side: "le
             key={i}
             className={`h-3 flex-1 transition-colors duration-500 sm:h-3.5 ${on && low ? "animate-pulse" : ""}`}
             style={{
-              background: on ? color : "#1e1e22",
+              background: on ? color : "#24232A",
               // a light top edge on lit blocks gives the classic arcade bevel
               boxShadow: on ? "inset 0 2px 0 rgba(255,255,255,0.28)" : "none",
               transitionDelay: `${(side === "left" ? BLOCKS - i : i) * 25}ms`,
@@ -50,13 +50,13 @@ export function PixelMeter({ prosecution, defence, className = "" }: { prosecuti
       role="img"
       aria-label={`Credibility health bar: Prosecution ${prosecution} points, Defence ${defence} points`}
     >
-      <PixelArt bitmap={HEART} colors={{ a: "#e5484d", b: "#ffb3b5" }} className="hidden h-3.5 w-4 shrink-0 sm:block" />
+      <PixelArt bitmap={HEART} colors={{ a: "#628BFF", b: "#C9D6FF" }} className="hidden h-3.5 w-4 shrink-0 sm:block" />
       <span className="w-6 text-right font-pixel text-sm tabular-nums text-pros">{prosecution}</span>
-      <Bar filled={hp.pros} color="#e5484d" side="left" />
+      <Bar filled={hp.pros} color="#628BFF" side="left" />
       <span className="shrink-0 font-pixel text-xs text-accent sm:text-sm">VS</span>
-      <Bar filled={hp.def} color="#3e8bff" side="right" />
+      <Bar filled={hp.def} color="#E16B64" side="right" />
       <span className="w-6 font-pixel text-sm tabular-nums text-def">{defence}</span>
-      <PixelArt bitmap={HEART} colors={{ a: "#3e8bff", b: "#b5d0ff" }} className="hidden h-3.5 w-4 shrink-0 sm:block" />
+      <PixelArt bitmap={HEART} colors={{ a: "#E16B64", b: "#F6C4BF" }} className="hidden h-3.5 w-4 shrink-0 sm:block" />
     </div>
   );
 }

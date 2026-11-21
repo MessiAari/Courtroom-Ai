@@ -100,14 +100,14 @@ export function AskTheJudge({
         <p className="mt-4 max-w-sm leading-relaxed text-muted">
           The Judge has the full record and the judgment. Ask why, what was weakest, or what to say in your own GD.
         </p>
-        <PixelArt bitmap={BUBBLE} colors={{ a: "#34D399", b: "#6EE7B7" }} interactive className="mt-8 hidden h-16 w-20 lg:block" />
+        <PixelArt bitmap={BUBBLE} colors={{ a: "#C89B55", b: "#E6C88F" }} interactive className="mt-8 hidden h-16 w-20 lg:block" />
       </div>
 
       <div className="flex min-h-[26rem] flex-col overflow-hidden rounded-2xl border border-line bg-surface">
         <header className="flex items-center justify-between border-b border-line px-5 py-3">
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-md border border-accent/40 bg-accent/10">
-              <PixelArt bitmap={SCALES} colors={{ a: "#34D399", b: "#6EE7B7" }} className="h-4 w-4" />
+              <PixelArt bitmap={SCALES} colors={{ a: "#C89B55", b: "#E6C88F" }} className="h-4 w-4" />
             </div>
             <div>
               <p className="text-sm font-semibold">The Judge</p>
@@ -164,7 +164,7 @@ export function AskTheJudge({
 
           {loading && (
             <div className="flex items-center gap-3 text-sm text-muted">
-              <PixelLoader color="#34D399" /> The Judge is considering…
+              <PixelLoader color="#C89B55" /> The Judge is considering…
             </div>
           )}
 

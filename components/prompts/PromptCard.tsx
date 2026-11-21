@@ -50,8 +50,8 @@ export function PromptCard({ entry }: { entry: PromptEntry }) {
   const before = entry.sections.find((s) => /^before/i.test(s.heading));
   const rest = entry.sections.filter((s) => s !== prompt && s !== before);
 
-  const TOOL_COLOR: Record<string, string> = { Claude: "#10B981", ChatGPT: "#34d399", Perplexity: "#22d3ee", Gemini: "#3E8BFF" };
-  const toolColor = TOOL_COLOR[entry.tool] ?? "#34D399";
+  const TOOL_COLOR: Record<string, string> = { Claude: "#C89B55", ChatGPT: "#7FB39A", Perplexity: "#22d3ee", Gemini: "#628BFF" };
+  const toolColor = TOOL_COLOR[entry.tool] ?? "#C89B55";
 
   return (
     <article className={`overflow-hidden rounded-2xl border transition-colors ${open ? "border-line-strong bg-surface" : "border-line hover:border-line-strong"}`}>

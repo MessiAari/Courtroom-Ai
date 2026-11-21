@@ -19,7 +19,7 @@ export default function HowWeBuiltThis() {
         <h1 className="display mt-5 text-6xl sm:text-8xl">
           How we{" "}
           <span className="inline-block translate-y-[0.05em]">
-            <PixelArt bitmap={BUBBLE} colors={{ a: "#34D399", b: "#059669" }} animateIn interactive className="inline h-[0.7em] w-[0.9em]" label="Pixel speech bubble" />
+            <PixelArt bitmap={BUBBLE} colors={{ a: "#C89B55", b: "#8A6330" }} animateIn interactive className="inline h-[0.7em] w-[0.9em]" label="Pixel speech bubble" />
           </span>{" "}
           built this.
         </h1>
@@ -30,9 +30,9 @@ export default function HowWeBuiltThis() {
 
         <dl className="mt-14 grid grid-cols-3 gap-3 sm:gap-4">
           {[
-            { n: entries.length, label: "Prompts", color: "#6EE7B7" },
-            { n: tools.length, label: tools.length === 1 ? "AI tool" : "AI tools", color: "#10B981" },
-            { n: techniques.length, label: "Techniques", color: "#059669" },
+            { n: entries.length, label: "Prompts", color: "#E6C88F" },
+            { n: tools.length, label: tools.length === 1 ? "AI tool" : "AI tools", color: "#A97C3E" },
+            { n: techniques.length, label: "Techniques", color: "#8A6330" },
           ].map((s) => (
             <div key={s.label} className="rounded-2xl border border-line bg-surface p-4 sm:p-7">
               <dd className="font-pixel text-4xl leading-none sm:text-7xl" style={{ color: s.color }}>

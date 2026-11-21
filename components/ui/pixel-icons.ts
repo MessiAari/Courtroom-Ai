@@ -56,8 +56,8 @@ export const GAVEL: Bitmap = [
   "cccccccc..",
 ];
 
-/** Gavel colours: ivory head, stone handle, jade sound block. */
-export const GAVEL_COLORS = { a: "#ede6d6", b: "#9a948a", c: "#10b981" };
+/** Gavel colours: ivory head, stone handle, gold sound block. */
+export const GAVEL_COLORS = { a: "#ede6d6", b: "#9a948a", c: "#A97C3E" };
 
 /** Rubber verdict stamp (handle, body, inked face). */
 export const STAMP: Bitmap = [
@@ -70,7 +70,7 @@ export const STAMP: Bitmap = [
   "bbbbbbbbb",
   "ccccccccc",
 ];
-export const STAMP_COLORS = { a: "#9a948a", b: "#10b981", c: "#047857" };
+export const STAMP_COLORS = { a: "#9a948a", b: "#A97C3E", c: "#6B4C24" };
 
 /** Pixel heart — the health-bar icon. */
 export const HEART: Bitmap = [
@@ -93,7 +93,7 @@ export const BUBBLE: Bitmap = [
   ".a.......",
 ];
 
-/** Large hero scales (21 × 15), shaded row by row with the jade ramp. */
+/** Large hero scales (21 × 15), shaded row by row with the gold ramp. */
 export const BIG_SCALES: Bitmap = [
   "..........#..........",
   ".........###.........",

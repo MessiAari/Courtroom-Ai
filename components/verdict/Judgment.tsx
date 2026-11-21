@@ -3,6 +3,7 @@
 // pixel gavel strikes → winner panel + stamp → animated pixel score bars → findings, GD points, share card.
 
 import { useEffect, useState } from "react";
+import { PixelBurst } from "@/components/ui/PixelBurst";
 import { motion, useReducedMotion } from "framer-motion";
 import type { DebateMode, Side, Verdict } from "@/lib/types";
 import { PixelArt } from "@/components/ui/PixelArt";
@@ -16,9 +17,9 @@ const FINDING = {
   draw: "The court declares the case drawn.",
 } as const;
 const STAMP = { prosecutor: "For the Prosecution", defender: "For the Defence", draw: "Drawn" } as const;
-const PANEL = { prosecutor: "#e5484d", defender: "#3e8bff", draw: "#34d399" } as const;
+const PANEL = { prosecutor: "#628BFF", defender: "#E16B64", draw: "#C89B55" } as const;
 const CATEGORIES = ["reasoning", "evidence", "rebuttal", "logic"] as const;
-const SPECTRUM = ["#6EE7B7", "#34D399", "#10B981", "#059669", "#047857"];
+const SPECTRUM = ["#E6C88F", "#C89B55", "#A97C3E", "#8A6330", "#6B4C24"];
 
 /** 10-block pixel bar that fills up to `value`. */
 function BlockBar({ value, side, delay }: { value: number; side: Side; delay: number }) {
@@ -29,8 +30,8 @@ function BlockBar({ value, side, delay }: { value: number; side: Side; delay: nu
         <motion.div
           key={i}
           className="h-3 flex-1"
-          initial={{ background: "#27272c" }}
-          animate={{ background: i < value ? color : "#27272c" }}
+          initial={{ background: "#2C2B31" }}
+          animate={{ background: i < value ? color : "#2C2B31" }}
           transition={{ delay: delay + i * 0.05, duration: 0.15 }}
         />
       ))}
@@ -98,17 +99,18 @@ export function Judgment({ verdict, topic, mode }: { verdict: Verdict; topic: st
             </div>
             <div className="flex flex-col items-start gap-8 lg:items-end">
               <motion.div initial={{ rotate: 0 }} animate={{ rotate: tilt }} transition={{ delay: 0.8, type: "spring", stiffness: 60, damping: 8 }}>
-                <PixelArt bitmap={BIG_SCALES} colors={{ "#": "#0f0f11" }} className="h-24 w-32 opacity-90 sm:h-32 sm:w-44" label="Scales of justice" />
+                <PixelArt bitmap={BIG_SCALES} colors={{ "#": "#101114" }} className="h-24 w-32 opacity-90 sm:h-32 sm:w-44" label="Scales of justice" />
               </motion.div>
               {/* Pixel rubber stamp presses down, then the verdict mark appears */}
               <div className="relative flex flex-col items-start lg:items-end">
+                <PixelBurst color="#101114" palette={["#101114", "#e8dfce", "#c89b55"]} delay={1.1} count={32} className="left-1/2 top-2/3" />
                 <motion.div
                   initial={{ y: -36, opacity: 0 }}
                   animate={{ y: [-36, 6, 0], opacity: [0, 1, 1, 0.9] }}
                   transition={{ delay: 0.75, duration: 0.45, times: [0, 0.6, 1] }}
                   className="mb-2"
                 >
-                  <PixelArt bitmap={STAMP_ICON} colors={{ a: "#0f0f11", b: "#0f0f11", c: "#0f0f11" }} className="h-10 w-11 opacity-80" />
+                  <PixelArt bitmap={STAMP_ICON} colors={{ a: "#101114", b: "#101114", c: "#101114" }} className="h-10 w-11 opacity-80" />
                 </motion.div>
               <motion.div
                 initial={{ scale: 2, opacity: 0, rotate: 0 }}

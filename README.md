@@ -19,14 +19,15 @@ People usually see only one side of an issue. College students struggle in place
 
 | Area | What it does |
 |---|---|
-| **Landing page** | Headline with an inline pixel scales icon, a flickering pixel-grid background, a live-looking sample hearing, a clickable topic marquee, "How a hearing works", the three parties, a feature bento grid, cases on the docket |
+| **Landing page** | Cinematic hero: sweeping coloured spotlights and the three pixel-art agents on a stage (hover or tap one to hear its role); a scripted **sample hearing** (no API calls) with talking characters, typed arguments, floating scores, an objection and a verdict reveal; topic marquee, "How a hearing works", the parties, a feature grid, cases on the docket |
 | **File a case** | Type any topic or pick from the **Case Library** (8 researched cases, each with 3 sourced facts for and 3 against); choose **Quick** (Opening → Rebuttal → Verdict) or **Full** (+ Cross-examination + Closing) |
-| **Hearing (debate room)** | Agents debate autonomously, round by round, as a numbered live record. Each statement types itself out; a sticky bench bar shows who is speaking / preparing and the AI's `emotion`; pixel sword (Prosecution), scales (Judge) and shield (Defence) avatars |
-| **Credibility health bar** | Retro fighting-game health bars (red vs blue, "VS" in the middle): the trailing side loses blocks after each Judge score |
-| **OBJECTION!** | Full-width jade pixel band + small shake when the Judge detects a fallacy (the quote is verified against the transcript first) |
+| **Hearing (debate room)** | Agents debate autonomously, round by round, as a numbered live record. Each statement types itself out; a sticky bench bar shows who is speaking / preparing and the AI's `emotion` |
+| **Pixel-art courtroom** | A miniature game scene driven by the real debate state (`components/court/`): Prosecution, Judge and Defence as original pixel characters with idle and talking animations, faces that follow each AI `emotion`, a spotlight on the speaker, thinking bubbles while the next agent prepares, floating `+score` after each ruling, a gavel slam and flinch on objections, round banners, flickering lamps and a reacting gallery. Pinned beside the record on desktop |
+| **Credibility health bar** | Retro fighting-game health bars (blue vs red, "VS" in the middle): the trailing side loses blocks after each Judge score |
+| **OBJECTION!** | Full-width gold pixel band + small shake when the Judge detects a fallacy (the quote is verified against the transcript first); in the scene the Judge slams the gavel and the offender flinches |
 | **Controls** | Round progress, pause/resume, skip to judgment, restart, collapsible record ("show current only" — the default on phones) |
 | **Voices** | Different voice and pitch per character via the free browser Web Speech API (muted by default) |
-| **Judgment** | Pixel gavel strikes → full-colour winner panel with tipping pixel scales and a pixel rubber stamp → pixel block score bars (overall + reasoning/evidence/rebuttal/logic) → findings, neutral summary, GD-point cards, shareable card |
+| **Judgment** | Pixel gavel strikes → full-colour winner panel with tipping pixel scales, a pixel rubber stamp and a pixel confetti burst → pixel block score bars (overall + reasoning/evidence/rebuttal/logic) → findings, neutral summary, GD-point cards, shareable card |
 | **Ask the Judge** | Chatbot with the full transcript + verdict as context; suggested-question chips, history, loading state, clear chat, retry on error |
 | **How we built this** | Reads our `/prompts` folder and shows every prompt as a card (author, tool, techniques, before/after, result) |
 | **Error handling** | Input validation ("Case dismissed: …"), provider fallback, "The court is in recess" + Retry, setup screen when keys are missing, no raw errors shown |
@@ -37,7 +38,7 @@ People usually see only one side of an issue. College students struggle in place
 
 - **Next.js 16** (App Router) + **TypeScript** + **Tailwind CSS v4**
 - **Framer Motion** (animation), **Lucide React** (icons)
-- Design: **"Jade bench"** palette (jade Judge, red Prosecution, blue Defence) on near-black; type in **Geist**, **Geist Mono** and the pixel font **Silkscreen**; pixel art drawn in code (`components/ui/pixel-icons.ts`)
+- Design: **"Gilded bench"** palette — charcoal `#101114`, surface `#1B1A20`, warm ivory text `#E8DFCE`, gold Judge `#C89B55`, electric-blue Prosecution `#628BFF`, muted-red Defence `#E16B64` — with film grain and warm ambient light; type in **Geist**, **Geist Mono** and the pixel font **Silkscreen**; pixel art and characters drawn in code (`components/ui/pixel-icons.ts`, `components/court/sprites.ts`)
 - **zod** (validating AI JSON), **gray-matter** + **react-markdown** (prompt log page)
 - **@google/genai** for Gemini; Groq and Mistral are called with plain `fetch` (both use the OpenAI-style chat API)
 - Hosted on **Vercel**. No database — localStorage only.

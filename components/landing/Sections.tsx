@@ -11,6 +11,7 @@ import { PixelMeter } from "@/components/ui/PixelMeter";
 import { PARTY } from "@/lib/speakers";
 import type { CaseFile } from "@/lib/types";
 import { Reveal } from "./Reveal";
+import { CastMember } from "@/components/court/Cast";
 
 const TOPICS = [
   "Should attendance be optional in college?",
@@ -60,16 +61,16 @@ function SectionHead({ n, kicker, title, children }: { n: string; kicker: string
 }
 
 const STEPS = [
-  { title: "File the case", text: "Type any debatable question, or pick a researched case from the library.", color: "#6EE7B7" },
-  { title: "Hear the arguments", text: "Both sides open, then rebut each other's actual points. Full hearings add cross-examination and closings.", color: "#34D399" },
-  { title: "Receive judgment", text: "The judge scores every round, objects to fallacies, and names a winner with reasons.", color: "#10B981" },
-  { title: "Question the bench", text: "Ask the judge why, what was weakest, and what to say in your own group discussion.", color: "#059669" },
+  { title: "File the case", text: "Type any debatable question, or pick a researched case from the library.", color: "#E6C88F" },
+  { title: "Hear the arguments", text: "Both sides open, then rebut each other's actual points. Full hearings add cross-examination and closings.", color: "#C89B55" },
+  { title: "Receive judgment", text: "The judge scores every round, objects to fallacies, and names a winner with reasons.", color: "#A97C3E" },
+  { title: "Question the bench", text: "Ask the judge why, what was weakest, and what to say in your own group discussion.", color: "#8A6330" },
 ];
 
 export function HowItWorks() {
   return (
     <section id="how" className="mx-auto max-w-7xl scroll-mt-20 px-5 pt-28 sm:px-8">
-      <SectionHead n="01" kicker="Procedure" title="How a hearing works">
+      <SectionHead n="02" kicker="Procedure" title="How a hearing works">
         Four steps, about two minutes. Every turn is a real call to a real AI model — nothing is scripted.
       </SectionHead>
       <ol className="mt-14 grid overflow-hidden rounded-xl border border-line sm:grid-cols-2 lg:grid-cols-4">
@@ -100,7 +101,7 @@ const ROLE = {
 export function Parties() {
   return (
     <section className="mx-auto max-w-7xl px-5 pt-28 sm:px-8">
-      <SectionHead n="02" kicker="The parties" title={<>Three agents.<br />One fair fight.</>}>
+      <SectionHead n="03" kicker="The parties" title={<>Three agents.<br />One fair fight.</>}>
         Both lawyers run on the same model with different briefs, so neither side starts ahead. The judge runs on a different
         model, so it never grades its own work.
       </SectionHead>
@@ -110,8 +111,9 @@ export function Parties() {
           return (
             <Reveal key={who} delay={i * 0.08}>
               <SpotlightCard as="article" color={p.color} className="h-full rounded-xl border border-line bg-surface transition-colors hover:border-line-strong">
-                <div className="flex h-44 items-center justify-center border-b border-line" style={{ background: `${p.color}14` }}>
-                  <PixelArt bitmap={p.icon} colors={p.iconColors} interactive className="h-24 w-24 transition-transform duration-500 group-hover/spot:scale-110" />
+                <div className="relative flex h-48 items-end justify-center overflow-hidden border-b border-line pt-6" style={{ background: `radial-gradient(70% 90% at 50% 100%, ${p.color}30, transparent 70%)` }}>
+                  <CastMember who={who} className={`relative transition-transform duration-500 group-hover/spot:-translate-y-1 ${who === "judge" ? "w-32" : "w-24"}`} />
+                  <PixelArt bitmap={p.icon} colors={p.iconColors} className="absolute right-4 top-4 h-6 w-6 opacity-80" />
                 </div>
                 <div className="p-6">
                   <div className="flex items-baseline justify-between gap-2">
@@ -144,7 +146,7 @@ function MeterDemo() {
 export function Features() {
   return (
     <section className="mx-auto max-w-7xl px-5 pt-28 sm:px-8">
-      <SectionHead n="03" kicker="In the courtroom" title="Built to make you a sharper debater." />
+      <SectionHead n="04" kicker="In the courtroom" title="Built to make you a sharper debater." />
       <div className="mt-14 grid gap-4 md:grid-cols-6">
         {/* OBJECTION card */}
         <div className="group relative overflow-hidden rounded-xl bg-accent p-7 text-bg md:col-span-4 md:row-span-2 sm:p-9">
@@ -165,32 +167,32 @@ export function Features() {
           <PixelStairs flip className="absolute -bottom-px -right-px w-40 opacity-60 mix-blend-multiply sm:w-56" />
         </div>
 
-        <SpotlightCard color="#3E8BFF" className="rounded-xl border border-line bg-surface p-7 md:col-span-2">
+        <SpotlightCard color="#E16B64" className="rounded-xl border border-line bg-surface p-7 md:col-span-2">
           <p className="label">Credibility scale</p>
           <p className="mt-3 text-xl font-semibold tracking-tight">A live tug-of-war after every ruling.</p>
           <MeterDemo />
         </SpotlightCard>
 
-        <SpotlightCard color="#34D399" className="rounded-xl border border-line bg-surface p-7 md:col-span-2">
+        <SpotlightCard color="#C89B55" className="rounded-xl border border-line bg-surface p-7 md:col-span-2">
           <div className="flex items-center justify-between">
             <p className="label">Ask the Judge</p>
-            <PixelArt bitmap={BUBBLE} colors={{ a: "#34D399", b: "#6EE7B7" }} className="h-6 w-6" />
+            <PixelArt bitmap={BUBBLE} colors={{ a: "#C89B55", b: "#E6C88F" }} className="h-6 w-6" />
           </div>
           <p className="mt-3 text-xl font-semibold tracking-tight">Question the bench after the verdict.</p>
           <p className="mt-3 rounded-md bg-raised px-3 py-2 text-sm text-muted">“What was the weakest argument?”</p>
         </SpotlightCard>
 
-        <SpotlightCard color="#6EE7B7" className="rounded-xl border border-line bg-surface p-7 md:col-span-3">
+        <SpotlightCard color="#E6C88F" className="rounded-xl border border-line bg-surface p-7 md:col-span-3">
           <p className="label">GD takeaways</p>
           <p className="mt-3 text-2xl font-semibold tracking-tight">Leave with 3–5 points you can actually say out loud.</p>
           <ol className="mt-5 space-y-2 text-sm text-muted">
-            <li><span className="font-pixel text-jade-200">1</span>&nbsp; Separate hours worked from output per hour.</li>
+            <li><span className="font-pixel text-gold-200">1</span>&nbsp; Separate hours worked from output per hour.</li>
             <li><span className="font-pixel text-accent">2</span>&nbsp; Name where the policy fits — and where it doesn&apos;t.</li>
-            <li><span className="font-pixel text-jade-500">3</span>&nbsp; Attack arguments, never people.</li>
+            <li><span className="font-pixel text-gold-500">3</span>&nbsp; Attack arguments, never people.</li>
           </ol>
         </SpotlightCard>
 
-        <SpotlightCard color="#059669" className="rounded-xl border border-line bg-surface p-7 md:col-span-3">
+        <SpotlightCard color="#8A6330" className="rounded-xl border border-line bg-surface p-7 md:col-span-3">
           <div className="flex items-center justify-between">
             <p className="label">Judgment</p>
             <PixelArt bitmap={GAVEL} colors={GAVEL_COLORS} className="h-7 w-7 transition-transform duration-300 group-hover/spot:-rotate-12" />
@@ -209,14 +211,14 @@ export function Features() {
 export function Docket({ cases }: { cases: CaseFile[] }) {
   return (
     <section id="docket" className="mx-auto max-w-7xl scroll-mt-20 px-5 pt-28 sm:px-8">
-      <SectionHead n="04" kicker="On the docket" title="Cases ready to hear">
+      <SectionHead n="05" kicker="On the docket" title="Cases ready to hear">
         Researched cases come with evidence the lawyers must cite. Or bring your own question.
       </SectionHead>
       <div className="mt-14 grid gap-4 md:grid-cols-3">
         {cases.map((c, i) => (
           <Reveal key={c.id} delay={i * 0.07}>
             <Link href={`/file?case=${c.id}`} className="block h-full">
-              <SpotlightCard color={["#6EE7B7", "#10B981", "#059669"][i % 3]} className="flex h-full flex-col rounded-xl border border-line bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-line-strong">
+              <SpotlightCard color={["#E6C88F", "#A97C3E", "#8A6330"][i % 3]} className="flex h-full flex-col rounded-xl border border-line bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-line-strong">
                 <div className="flex items-center justify-between">
                   <span className="font-pixel text-sm text-faint">No. {String(i + 1).padStart(3, "0")}</span>
                   <span className="font-mono text-[11px] uppercase text-faint">{c.facts.length} exhibits</span>

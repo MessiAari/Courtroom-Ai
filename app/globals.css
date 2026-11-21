@@ -1,35 +1,36 @@
 @import "tailwindcss";
 
 /*
-  Courtroom AI — "Jade bench" design system.
-  A retro court game: near-black canvas, heavy geometric type, pixel-art
-  courtroom props (gavel, verdict stamp, sword, shield, scales) and a
-  fighting-game health bar. Jade is the Judge and the accent colour;
-  red is always the Prosecution, blue is always the Defence.
+  Courtroom AI — "Gilded bench" design system (prompt 013).
+  A miniature pixel-art courtroom game: charcoal canvas with film grain and
+  warm ambient light, ivory type, heavy geometric headlines, pixel props
+  (gavel, stamp, sword, shield, scales) and a fighting-game health bar.
+  Gold is the Judge and the accent; electric blue is always the Prosecution,
+  muted red is always the Defence.
 */
 @theme {
-  --color-bg: #0f0f11;
-  --color-surface: #161619;
-  --color-raised: #1e1e22;
-  --color-line: #27272c;
-  --color-line-strong: #393940;
-  --color-ink: #f7f4ed;
-  --color-muted: #aaa59b;
-  --color-faint: #6f6b63;
+  --color-bg: #101114; /* charcoal */
+  --color-surface: #1b1a20;
+  --color-raised: #24232a;
+  --color-line: #2c2b31;
+  --color-line-strong: #3e3c44;
+  --color-ink: #e8dfce; /* warm ivory */
+  --color-muted: #a69e8f;
+  --color-faint: #6e685e;
 
-  /* "Jade bench" palette: the Judge's jade ramp (light → deep) */
-  --color-jade-200: #6ee7b7;
-  --color-jade-300: #34d399;
-  --color-jade-500: #10b981;
-  --color-jade-600: #059669;
-  --color-jade-700: #047857;
-  --color-accent: #34d399;
+  /* The Judge's gold ramp (light → deep) */
+  --color-gold-200: #e6c88f;
+  --color-gold-300: #c89b55;
+  --color-gold-500: #a97c3e;
+  --color-gold-600: #8a6330;
+  --color-gold-700: #6b4c24;
+  --color-accent: #c89b55;
   --color-danger: #e5484d;
 
   /* Parties */
-  --color-pros: #e5484d;
-  --color-judge: #34d399;
-  --color-def: #3e8bff;
+  --color-pros: #628bff; /* electric blue */
+  --color-judge: #c89b55; /* gold */
+  --color-def: #e16b64; /* muted red */
 
   --font-sans: var(--font-geist), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
@@ -81,7 +82,7 @@ body {
 
 ::selection {
   background: var(--color-accent);
-  color: #0f0f11;
+  color: #101114;
 }
 
 :focus-visible {
@@ -148,4 +149,79 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ── Atmosphere ───────────────────────────────────────────────── */
+
+/* Film grain over the whole page (an SVG noise tile; ignores the mouse). */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Warm ambient light from above: a soft gold pool behind hero areas. */
+.ambient {
+  background:
+    radial-gradient(60% 55% at 50% 0%, rgba(200, 155, 85, 0.16), transparent 70%),
+    radial-gradient(35% 40% at 12% 30%, rgba(98, 139, 255, 0.07), transparent 70%),
+    radial-gradient(35% 40% at 88% 30%, rgba(225, 107, 100, 0.07), transparent 70%);
+}
+
+/* A slow spotlight sweep for the hero stage. */
+@keyframes sweep {
+  0%,
+  100% {
+    transform: translateX(-12%) rotate(-8deg);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateX(12%) rotate(8deg);
+    opacity: 0.85;
+  }
+}
+.animate-sweep {
+  animation: sweep 9s ease-in-out infinite;
+}
+
+/* Pixel characters: a two-frame idle "breath" and a quick talk bounce. */
+@keyframes idle {
+  50% {
+    transform: translateY(1px);
+  }
+}
+@keyframes talk {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 0.9;
+  }
+  45% {
+    opacity: 0.7;
+  }
+  55% {
+    opacity: 1;
+  }
+}
+.animate-idle {
+  animation: idle 1.6s steps(1, end) infinite;
+}
+.animate-talk {
+  animation: talk 0.36s steps(2, end) infinite;
+}
+.animate-flicker {
+  animation: flicker 3.2s steps(4, end) infinite;
 }

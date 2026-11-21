@@ -1,74 +1,96 @@
 "use client";
-// Landing hero: a flickering pixel field, a bold headline with an inline pixel
-// pixel icon, and a live-looking preview of a hearing underneath.
+// Landing hero: a dark, lit stage. Headline and CTAs on top; below, the three
+// AI agents stand in their own spotlights. They take turns introducing
+// themselves; hover or tap one to hear it (keyboard: Tab + Enter).
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { FlickeringGrid } from "@/components/ui/FlickeringGrid";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { PixelArt } from "@/components/ui/PixelArt";
-import { BIG_SCALES, GAVEL, GAVEL_COLORS } from "@/components/ui/pixel-icons";
-import { ButtonLink, PixelStairs } from "@/components/ui/primitives";
-import { PixelMeter } from "@/components/ui/PixelMeter";
+import { BIG_SCALES } from "@/components/ui/pixel-icons";
+import { ButtonLink } from "@/components/ui/primitives";
+import { CastMember } from "@/components/court/Cast";
+import { useBeat } from "@/components/court/useBeat";
 import { PARTY } from "@/lib/speakers";
 import type { Speaker } from "@/lib/types";
 
-// Illustration only — real hearings are generated live by the AI agents.
-const SAMPLE: { who: Speaker; tag: string; line: string; score: [number, number] }[] = [
-  { who: "prosecutor", tag: "Opening", line: "A job offer pays you to learn. A master's degree charges you for the same lesson.", score: [0, 0] },
-  { who: "defender", tag: "Opening", line: "Some doors only open with the degree. Experience can't buy you a research role.", score: [0, 0] },
-  { who: "judge", tag: "Ruling", line: "Opening to the Prosecution, 7 to 6. Defence — evidence, not assertion.", score: [7, 6] },
-  { who: "defender", tag: "Rebuttal", line: "My opponent calls it 'paid learning'. Paid learning in a role you'll outgrow in a year.", score: [7, 6] },
-  { who: "prosecutor", tag: "Rebuttal", line: "Anyone who disagrees has simply never had a real job.", score: [7, 6] },
-  { who: "judge", tag: "Objection", line: "Objection sustained — that's an ad hominem. Rebuttal to the Defence, 8 to 4.", score: [11, 14] },
-];
+const ORDER: Speaker[] = ["prosecutor", "judge", "defender"];
 
-const SPECTRUM_ROWS = ["#6EE7B7", "#6EE7B7", "#6EE7B7", "#34D399", "#34D399", "#34D399", "#10B981", "#10B981", "#10B981", "#059669", "#059669", "#047857", "#047857", "#047857", "#047857"];
+const INTRO: Record<Speaker, { line: string; role: string }> = {
+  prosecutor: { role: "Argues FOR", line: "I build the case for the motion — evidence first, then I go after the other side's points." },
+  judge: { role: "Presides", line: "I score every round, call out fallacies on the spot, and explain my verdict." },
+  defender: { role: "Argues AGAINST", line: "I take the other side — same model, same rules, different brief. No easy wins." },
+};
+
+const GOLD_ROWS = ["#E6C88F", "#E6C88F", "#E6C88F", "#D7B272", "#D7B272", "#C89B55", "#C89B55", "#C89B55", "#B88A47", "#B88A47", "#A97C3E", "#A97C3E", "#8A6330", "#8A6330", "#8A6330"];
 
 export function Hero() {
-  const [i, setI] = useState(0);
+  const reduce = useReducedMotion();
+  const [active, setActive] = useState<Speaker>("prosecutor");
+  const [hold, setHold] = useState(false); // stop auto-cycling while the visitor picks one
+
   useEffect(() => {
-    const t = setInterval(() => setI((n) => (n + 1) % SAMPLE.length), 3200);
+    if (hold || reduce) return;
+    const t = setInterval(() => setActive((a) => ORDER[(ORDER.indexOf(a) + 1) % ORDER.length]), 3600);
     return () => clearInterval(t);
-  }, []);
-  const s = SAMPLE[i];
-  const p = PARTY[s.who];
+  }, [hold, reduce]);
+
+  const mouth = useBeat(!reduce, 170);
+  const p = PARTY[active];
+  const pick = (who: Speaker) => {
+    setHold(true);
+    setActive(who);
+  };
 
   return (
-    <section className="relative overflow-hidden border-b border-line">
-      {/* Background: flickering pixels + hairline grid */}
-      <div className="absolute inset-0">
-        <FlickeringGrid className="opacity-70" />
+    <section className="relative isolate overflow-hidden border-b border-line">
+      {/* Lighting: warm pool from above + three slowly sweeping beams */}
+      <div className="ambient absolute inset-0 -z-10" aria-hidden />
+      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
+        {[
+          { left: "14%", color: "98,139,255" },
+          { left: "50%", color: "200,155,85" },
+          { left: "86%", color: "225,107,100" },
+        ].map((b, i) => (
+          <div
+            key={b.left}
+            className="animate-sweep absolute top-[-10%] h-[120%] w-[38vw] max-w-[520px] origin-top"
+            style={{
+              left: `calc(${b.left} - min(19vw, 260px))`,
+              animationDelay: `${i * -3}s`,
+              background: `linear-gradient(180deg, rgba(${b.color},0.13), transparent 75%)`,
+              clipPath: "polygon(44% 0, 56% 0, 100% 100%, 0 100%)",
+            }}
+          />
+        ))}
       </div>
-      <div className="grid-lines absolute inset-0" aria-hidden />
-      <PixelStairs className="absolute -bottom-px left-0 w-36 opacity-95 sm:w-56 lg:w-72" />
-      <PixelStairs flip className="absolute -bottom-px right-0 hidden w-24 sm:flex lg:w-40" />
+      <div className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-bg to-transparent" aria-hidden />
 
-      <div className="relative mx-auto max-w-7xl px-5 pb-28 pt-16 sm:px-8 sm:pt-24 lg:pb-36">
+      <div className="mx-auto max-w-7xl px-5 pt-16 sm:px-8 sm:pt-24">
         <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="label text-center">
-          Multi-agent debate arena · for GD, debate & moot practice
+          <span className="text-gold-300">●</span>&nbsp; Multi-agent debate arena · GD, debate &amp; moot practice
         </motion.p>
 
         <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-          className="display mx-auto mt-6 max-w-5xl text-center text-[3.1rem] sm:text-7xl lg:text-[6.4rem]"
+          initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
+          className="display mx-auto mt-6 max-w-5xl text-center text-[3rem] sm:text-7xl lg:text-[6.4rem]"
         >
           Every case has{" "}
           <span className="inline-block translate-y-[0.06em]">
-            <PixelArt bitmap={BIG_SCALES} rowColors={SPECTRUM_ROWS} animateIn interactive className="inline h-[0.8em] w-[1.12em]" label="Pixel scales of justice" />
+            <PixelArt bitmap={BIG_SCALES} rowColors={GOLD_ROWS} animateIn interactive className="inline h-[0.8em] w-[1.12em]" label="Pixel scales of justice" />
           </span>{" "}
           two sides.
           <br />
           <span className="text-muted">Hear both </span>
-          <span className="bg-gradient-to-r from-jade-200 via-accent to-jade-500 bg-clip-text text-transparent">argued.</span>
+          <span className="text-gold-300">argued.</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.35 }}
-          className="mx-auto mt-8 max-w-xl text-center text-lg leading-relaxed text-muted"
+          transition={{ delay: 0.4 }}
+          className="mx-auto mt-7 max-w-xl text-center text-lg leading-relaxed text-muted"
         >
           File a question. An AI prosecutor argues for it, an AI defender argues against, and an AI judge scores every round,
           calls out fallacies and explains the verdict.
@@ -77,71 +99,82 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-3"
+          transition={{ delay: 0.55 }}
+          className="mt-9 flex flex-wrap items-center justify-center gap-3"
         >
           <ButtonLink href="/file">File a case</ButtonLink>
-          <ButtonLink href="/#how" variant="secondary">How a hearing works</ButtonLink>
+          <ButtonLink href="/#preview" variant="secondary">
+            Watch a sample hearing
+          </ButtonLink>
         </motion.div>
 
-        {/* Live-looking preview of a hearing */}
+        {/* The stage: three agents in spotlights */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
-          className="mx-auto mt-16 max-w-4xl overflow-hidden rounded-xl border border-line-strong bg-surface/90 shadow-[0_40px_120px_-40px_rgba(52,211,153,0.35)] backdrop-blur"
+          transition={{ delay: 0.7, duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
+          className="relative mx-auto mt-14 max-w-4xl"
+          onMouseLeave={() => setHold(false)}
         >
-          <div className="flex items-center justify-between border-b border-line px-4 py-3 sm:px-5">
-            <div className="flex items-center gap-2">
-              <PixelArt bitmap={GAVEL} colors={GAVEL_COLORS} className="h-4 w-4" />
-              <span className="label">Sample hearing · No. 0001</span>
-            </div>
-            <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-accent">
-              <span className="h-1.5 w-1.5 animate-pulse bg-accent" /> Live
-            </span>
-          </div>
-
-          <div className="grid grid-cols-3 border-b border-line">
-            {(["prosecutor", "judge", "defender"] as const).map((who) => {
-              const active = who === s.who;
+          <div className="grid grid-cols-3 items-end gap-2 sm:gap-6">
+            {ORDER.map((who) => {
+              const on = who === active;
               const party = PARTY[who];
               return (
-                <div
+                <button
                   key={who}
-                  className={`flex items-center gap-2 border-r border-line px-3 py-3 transition-colors duration-300 last:border-r-0 sm:gap-3 sm:px-5 ${active ? "" : "opacity-50"}`}
-                  style={active ? { background: `${party.color}1f` } : undefined}
+                  type="button"
+                  onMouseEnter={() => pick(who)}
+                  onFocus={() => pick(who)}
+                  onClick={() => pick(who)}
+                  aria-pressed={on}
+                  aria-label={`${party.name}: ${INTRO[who].role}`}
+                  className="group relative flex flex-col items-center rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-gold-300"
                 >
-                  <PixelArt bitmap={party.icon} colors={party.iconColors} className={`h-5 w-5 shrink-0 sm:h-6 sm:w-6 ${active ? "animate-bob" : ""}`} />
-                  <span className="truncate text-xs font-medium sm:text-sm">{party.name}</span>
-                </div>
+                  {/* spotlight cone */}
+                  <span
+                    className="pointer-events-none absolute bottom-10 left-1/2 h-[140%] w-[130%] -translate-x-1/2 transition-opacity duration-500"
+                    style={{
+                      opacity: on ? 1 : 0.2,
+                      background: `linear-gradient(180deg, ${party.color}00, ${party.color}26 55%, ${party.color}3d)`,
+                      clipPath: "polygon(42% 0, 58% 0, 100% 100%, 0 100%)",
+                      filter: "blur(10px)",
+                    }}
+                    aria-hidden
+                  />
+                  <CastMember
+                    who={who}
+                    emotion={on ? "confident" : "neutral"}
+                    talking={on && mouth}
+                    gesture={on && who !== "judge"}
+                    animate={on && !reduce ? "talk" : "idle"}
+                    className={`relative transition-[filter] duration-500 ${who === "judge" ? "w-full max-w-[11rem]" : "w-[73%] max-w-[8rem]"} ${on ? "" : "brightness-[0.55] group-hover:brightness-90"}`}
+                  />
+                  {/* pedestal */}
+                  <span className="relative mt-1 h-2 w-[85%] transition-colors duration-500 sm:h-3" style={{ background: on ? party.color : "#2c2b31" }} />
+                  <span className={`relative mt-3 font-pixel text-[10px] uppercase transition-colors sm:text-sm ${on ? party.text : "text-faint"}`}>{party.name}</span>
+                  <span className="relative hidden font-mono text-[10px] uppercase tracking-wider text-faint sm:block">{INTRO[who].role}</span>
+                </button>
               );
             })}
           </div>
 
-          <div className="px-4 pb-5 pt-5 sm:px-6">
-            <PixelMeter prosecution={s.score[0]} defence={s.score[1]} />
-            <div className="mt-5 min-h-[7.5rem] sm:min-h-[6.5rem]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <p className="font-mono text-[11px] uppercase tracking-wider">
-                    <span className={p.text}>{p.name}</span>
-                    <span className="text-faint"> · {s.tag}</span>
-                  </p>
-                  <p className={`mt-2 text-xl font-medium leading-snug tracking-tight sm:text-2xl ${s.tag === "Objection" ? "text-accent" : "text-ink"}`}>
-                    {s.line}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+          {/* What the active agent says */}
+          <div className="relative mx-auto mt-8 min-h-[7rem] max-w-2xl rounded-xl border border-line-strong bg-surface/85 px-5 py-4 backdrop-blur sm:min-h-[5.5rem] sm:px-6">
+            <span className="absolute -top-px left-6 right-6 h-px" style={{ background: `linear-gradient(90deg, transparent, ${p.color}, transparent)` }} aria-hidden />
+            <AnimatePresence mode="wait">
+              <motion.div key={active} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.25 }}>
+                <p className="font-mono text-[11px] uppercase tracking-wider">
+                  <span className={p.text}>{p.name}</span>
+                  <span className="text-faint"> · {p.model}</span>
+                </p>
+                <p className="mt-1.5 text-lg leading-snug text-ink sm:text-xl">“{INTRO[active].line}”</p>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </motion.div>
       </div>
+      <div className="h-20 sm:h-28" />
     </section>
   );
 }

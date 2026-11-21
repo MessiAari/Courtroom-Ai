@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     "Three AI agents argue your case: a Prosecutor, a Defender and a Judge. Watch both sides, see fallacies called out, and leave with GD-ready points.",
 };
 
-export const viewport: Viewport = { themeColor: "#0f0f11" };
+export const viewport: Viewport = { themeColor: "#101114" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

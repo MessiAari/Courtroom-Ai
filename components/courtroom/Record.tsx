@@ -97,7 +97,7 @@ function EntryShell({ entry, live, dim, children }: { entry: EntryData; live?: b
 function textClass(speaker: Speaker) {
   return speaker === "judge"
     ? "mt-2 text-base leading-relaxed text-ink/90 sm:text-lg"
-    : "mt-2 text-[1.3rem] font-medium leading-snug tracking-tight text-ink sm:text-[1.65rem]";
+    : "mt-2 text-[1.2rem] font-medium leading-snug tracking-tight text-ink sm:text-[1.4rem] lg:text-[1.3rem]";
 }
 
 export function StaticEntry({ entry, dim }: { entry: EntryData; dim?: boolean }) {

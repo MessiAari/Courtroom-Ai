@@ -79,7 +79,7 @@ export function RoundProgress({ phases, done, current }: { phases: Phase[]; done
             <div className="h-1.5 overflow-hidden bg-line">
               <motion.div
                 className="h-full"
-                style={{ background: isDone ? "#34D399" : "#059669" }}
+                style={{ background: isDone ? "#C89B55" : "#8A6330" }}
                 initial={false}
                 animate={{ width: isDone ? "100%" : isCurrent ? "55%" : "0%" }}
                 transition={{ duration: 0.6 }}
@@ -133,7 +133,7 @@ export function Controls(p: {
   );
 }
 
-const STRIPES = ["#6EE7B7", "#34D399", "#10B981", "#059669", "#047857"];
+const STRIPES = ["#E6C88F", "#C89B55", "#A97C3E", "#8A6330", "#6B4C24"];
 
 /** Full-width stepped-spectrum band shown when the Judge objects to a fallacy. */
 export function ObjectionBand({ by, type }: { by: Side | null; type?: string }) {

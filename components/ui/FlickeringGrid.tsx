@@ -5,7 +5,7 @@
 import { useEffect, useRef } from "react";
 
 export function FlickeringGrid({
-  colors = ["#6EE7B7", "#34D399", "#10B981", "#059669"],
+  colors = ["#E6C88F", "#C89B55", "#A97C3E", "#8A6330"],
   square = 4,
   gap = 8,
   maxOpacity = 0.35,

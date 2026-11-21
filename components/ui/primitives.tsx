@@ -5,10 +5,10 @@
 import { useRef } from "react";
 import Link from "next/link";
 
-// Jade ramp, light → deep (used for the courthouse steps and the stepped divider).
-const SPECTRUM = ["#6ee7b7", "#34d399", "#10b981", "#059669", "#047857"];
+// Gold ramp, light → deep (used for the courthouse steps and the stepped divider).
+const SPECTRUM = ["#E6C88F", "#C89B55", "#A97C3E", "#8A6330", "#6B4C24"];
 
-/** Primary / secondary buttons. The arrow nudges on hover; primary turns jade. */
+/** Primary / secondary buttons. The arrow nudges on hover; primary turns gold. */
 export function ButtonLink({
   href,
   children,
@@ -44,7 +44,7 @@ export function Arrow() {
   );
 }
 
-/** Courthouse steps: stepped pixel blocks in the jade ramp. */
+/** Courthouse steps: stepped pixel blocks in the gold ramp. */
 export function PixelStairs({ className = "", flip = false }: { className?: string; flip?: boolean }) {
   // Each column: [height in steps, colour index]
   const cols = [5, 4, 4, 3, 2, 2, 1];
@@ -61,7 +61,7 @@ export function PixelStairs({ className = "", flip = false }: { className?: stri
   );
 }
 
-/** Thin stepped jade stripe used as a divider. */
+/** Thin stepped gold stripe used as a divider. */
 export function SpectrumBar({ className = "" }: { className?: string }) {
   return (
     <div className={`flex h-2 ${className}`} aria-hidden>
@@ -79,7 +79,7 @@ export function SpectrumBar({ className = "" }: { className?: string }) {
 export function SpotlightCard({
   children,
   className = "",
-  color = "#34d399",
+  color = "#C89B55",
   as: Tag = "div",
 }: {
   children: React.ReactNode;
