@@ -1,0 +1,36 @@
+{
+  "title": "Should social media be banned for children under 16?",
+  "description": "The debate considers whether governments should prohibit social-media accounts for people younger than 16 to protect safety and wellbeing.",
+  "facts": [
+    {
+      "side": "for",
+      "fact": "Australia's 2024 law requires certain social-media platforms to prevent children under 16 from holding accounts.",
+      "source": "https://www.aph.gov.au/Parliamentary_Business/Bills_Legislation/bd/bd2425/25bd039"
+    },
+    {
+      "side": "for",
+      "fact": "The Australian ban took effect on 10 December 2025 and covers platforms including Instagram, TikTok and Snapchat.",
+      "source": "https://peo.gov.au/understand-our-parliament/history-of-parliament/history-milestones/australian-parliament-history-timeline/events/online-safety-amendment-social-media-minimum-age-act-2024"
+    },
+    {
+      "side": "for",
+      "fact": "Platforms can be fined up to A$49.5 million for serious or repeated failures to prevent underage accounts.",
+      "source": "https://www.bbc.com/news/articles/cwyp9d3ddqyo"
+    },
+    {
+      "side": "against",
+      "fact": "The ban applies to account-based services, while gaming and messaging platforms are exempt.",
+      "source": "https://www.bbc.com/news/articles/c89vjj0lxx9o"
+    },
+    {
+      "side": "against",
+      "fact": "Under-16s can still access some covered platforms, including YouTube, without creating an account.",
+      "source": "https://www.bbc.com/news/articles/c89vjj0lxx9o"
+    },
+    {
+      "side": "against",
+      "fact": "The law depends on platforms building age-assurance systems, creating implementation and verification challenges.",
+      "source": "https://peo.gov.au/understand-our-parliament/history-of-parliament/history-milestones/australian-parliament-history-timeline/events/online-safety-amendment-social-media-minimum-age-act-2024"
+    }
+  ]
+}

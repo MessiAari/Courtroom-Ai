@@ -17,7 +17,13 @@ export function getCases(): CaseFile[] {
         id: file.replace(/\.json$/, ""),
         title: String(data.title),
         description: String(data.description),
-        facts: Array.isArray(data.facts) ? data.facts : [],
+        facts: Array.isArray(data.facts)
+          ? data.facts.map((f: { fact: unknown; source: unknown; side?: unknown }) => ({
+              fact: String(f.fact),
+              source: String(f.source),
+              side: f.side === "for" || f.side === "against" ? f.side : undefined,
+            }))
+          : [],
       };
     });
 }

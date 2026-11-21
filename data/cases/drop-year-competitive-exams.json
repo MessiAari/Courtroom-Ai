@@ -1,0 +1,36 @@
+{
+  "title": "Is taking a drop year for competitive exams worth it?",
+  "description": "The debate weighs whether students should take a year after school to prepare again for competitive examinations such as JEE or NEET.",
+  "facts": [
+    {
+      "side": "for",
+      "fact": "NTA permits candidates to appear for NEET-UG in multiple years, allowing a second, focused preparation attempt.",
+      "source": "https://neet.nta.nic.in/"
+    },
+    {
+      "side": "for",
+      "fact": "A drop year can give students additional time to revise syllabi, practise mock tests and address earlier preparation gaps.",
+      "source": "https://neet.nta.nic.in/"
+    },
+    {
+      "side": "for",
+      "fact": "For some students, an improved rank can widen access to preferred colleges and courses.",
+      "source": "https://neet.nta.nic.in/"
+    },
+    {
+      "side": "against",
+      "fact": "A repeat attempt does not guarantee admission because seats, cutoffs and competition can change each year.",
+      "source": "https://neet.nta.nic.in/"
+    },
+    {
+      "side": "against",
+      "fact": "A drop year can create financial costs and psychological pressure from delayed entry into college or employment.",
+      "source": "https://www.who.int/news-room/fact-sheets/detail/mental-disorders"
+    },
+    {
+      "side": "against",
+      "fact": "Students may have credible alternatives, including other colleges, courses, skill programmes or employment pathways.",
+      "source": "https://www.education.gov.in/"
+    }
+  ]
+}

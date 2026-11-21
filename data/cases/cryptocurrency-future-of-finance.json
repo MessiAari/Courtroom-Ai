@@ -1,0 +1,36 @@
+{
+  "title": "Is cryptocurrency the future of finance?",
+  "description": "The debate evaluates whether cryptocurrencies and related blockchain systems will become a central part of the future financial system.",
+  "facts": [
+    {
+      "side": "for",
+      "fact": "India ranked first among 151 countries in Chainalysis's 2024 Global Crypto Adoption Index.",
+      "source": "https://www.chainalysis.com/blog/2024-global-crypto-adoption-index/"
+    },
+    {
+      "side": "for",
+      "fact": "India led global crypto adoption for a second consecutive year despite stringent regulation and high trading taxes.",
+      "source": "https://www.reuters.com/technology/india-leads-crypto-adoption-second-straight-year-report-shows-2024-09-11/"
+    },
+    {
+      "side": "for",
+      "fact": "Blockchain-based systems can enable peer-to-peer digital value transfer without a traditional central intermediary.",
+      "source": "https://www.bis.org/"
+    },
+    {
+      "side": "against",
+      "fact": "Cryptocurrency prices can be highly volatile, creating risks for savers, investors and payment users.",
+      "source": "https://www.rbi.org.in/"
+    },
+    {
+      "side": "against",
+      "fact": "India taxes income from virtual digital assets at 30%, plus applicable surcharge and cess, with restricted loss offsets.",
+      "source": "https://incometaxindia.gov.in/"
+    },
+    {
+      "side": "against",
+      "fact": "The Reserve Bank of India has repeatedly warned that private cryptocurrencies can pose risks to financial stability and consumer protection.",
+      "source": "https://www.rbi.org.in/"
+    }
+  ]
+}

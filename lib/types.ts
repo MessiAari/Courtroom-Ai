@@ -62,6 +62,7 @@ export interface Verdict {
 export interface CaseFact {
   fact: string;
   source: string;
+  side?: "for" | "against"; // which side the fact mainly supports (from our Perplexity research)
 }
 
 export interface CaseFile {

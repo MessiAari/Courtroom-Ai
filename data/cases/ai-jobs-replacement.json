@@ -1,0 +1,36 @@
+{
+  "title": "Is AI replacing more jobs than it creates?",
+  "description": "The debate concerns whether AI-driven automation will displace more workers than it creates new employment opportunities.",
+  "facts": [
+    {
+      "side": "for",
+      "fact": "The World Economic Forum projects AI and information-processing technologies will displace 9 million jobs by 2030.",
+      "source": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/2-jobs-outlook"
+    },
+    {
+      "side": "for",
+      "fact": "41% of employers surveyed plan to reduce their workforce where AI can automate tasks.",
+      "source": "https://www.weforum.org/publications/the-future-of-jobs-report-2025"
+    },
+    {
+      "side": "for",
+      "fact": "The WEF expects technological and economic change to disrupt the equivalent of 22% of jobs by 2030.",
+      "source": "https://www.weforum.org/publications/the-future-of-jobs-report-2025"
+    },
+    {
+      "side": "against",
+      "fact": "AI and information-processing trends are projected to create 11 million jobs while displacing 9 million by 2030.",
+      "source": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/2-jobs-outlook"
+    },
+    {
+      "side": "against",
+      "fact": "Global labour-market transformation is projected to create 170 million jobs and displace 92 million by 2030.",
+      "source": "https://www.weforum.org/publications/the-future-of-jobs-report-2025"
+    },
+    {
+      "side": "against",
+      "fact": "The projected net employment change is 78 million additional jobs, or 7% growth in total employment.",
+      "source": "https://www.weforum.org/publications/the-future-of-jobs-report-2025"
+    }
+  ]
+}

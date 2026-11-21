@@ -1,0 +1,36 @@
+{
+  "title": "Should AI-generated art be allowed in competitions?",
+  "description": "The debate considers whether art competitions should permit entries created with generative AI, and under what disclosure or authorship rules.",
+  "facts": [
+    {
+      "side": "for",
+      "fact": "The US Copyright Office recognises that works combining human-authored elements with AI-generated material can be copyrightable.",
+      "source": "https://www.copyright.gov/ai/ai_policy_guidance.pdf"
+    },
+    {
+      "side": "for",
+      "fact": "Human selection, arrangement or substantial modification of AI output can constitute protectable creative authorship.",
+      "source": "https://www.copyright.gov/ai/ai_policy_guidance.pdf"
+    },
+    {
+      "side": "for",
+      "fact": "Allowing AI-assisted entries can expand participation by creators who lack formal training or expensive production tools.",
+      "source": "https://hai.stanford.edu/"
+    },
+    {
+      "side": "against",
+      "fact": "The US Copyright Office says prompts alone do not provide enough human control to make a user the author of AI output.",
+      "source": "https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf"
+    },
+    {
+      "side": "against",
+      "fact": "Copyright does not extend to purely AI-generated material or material with insufficient human control over expression.",
+      "source": "https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf"
+    },
+    {
+      "side": "against",
+      "fact": "AI-generated works can raise concerns about originality, consent and the use of artists' styles and training data.",
+      "source": "https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf"
+    }
+  ]
+}

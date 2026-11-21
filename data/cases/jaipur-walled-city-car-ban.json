@@ -1,0 +1,36 @@
+{
+  "title": "Should India ban cars in old city areas like Jaipur's Walled City?",
+  "description": "The debate considers whether restricting private cars in historic urban cores such as Jaipur's Walled City would improve mobility, heritage protection and air quality.",
+  "facts": [
+    {
+      "side": "for",
+      "fact": "UNESCO inscribed Jaipur City, including its planned historic core, on the World Heritage List in 2019.",
+      "source": "https://whc.unesco.org/en/list/1607/"
+    },
+    {
+      "side": "for",
+      "fact": "Jaipur's historic urban fabric includes narrow streets and dense built form that constrain vehicle movement.",
+      "source": "https://whc.unesco.org/en/list/1607/"
+    },
+    {
+      "side": "for",
+      "fact": "Reducing motor-vehicle emissions can improve outdoor air quality and reduce health risks in urban areas.",
+      "source": "https://www.who.int/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health"
+    },
+    {
+      "side": "against",
+      "fact": "Car restrictions can displace traffic, parking demand and deliveries to surrounding neighbourhoods without adequate alternatives.",
+      "source": "https://www.itdp.org/"
+    },
+    {
+      "side": "against",
+      "fact": "Historic-area traffic policies need to protect resident access, emergency services, deliveries and local businesses.",
+      "source": "https://www.itdp.org/"
+    },
+    {
+      "side": "against",
+      "fact": "Restrictions are more effective when supported by reliable public transport, pedestrian infrastructure and enforcement.",
+      "source": "https://www.itdp.org/"
+    }
+  ]
+}

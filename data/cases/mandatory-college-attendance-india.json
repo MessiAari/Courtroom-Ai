@@ -1,0 +1,36 @@
+{
+  "title": "Should attendance be mandatory in Indian colleges?",
+  "description": "The debate examines whether Indian colleges should require minimum classroom attendance for academic eligibility and learning.",
+  "facts": [
+    {
+      "side": "for",
+      "fact": "The University Grants Commission's undergraduate framework prescribes a minimum of 75% attendance in each course.",
+      "source": "https://www.ugc.gov.in/"
+    },
+    {
+      "side": "for",
+      "fact": "Attendance requirements give institutions a consistent basis for examination eligibility and academic monitoring.",
+      "source": "https://www.ugc.gov.in/"
+    },
+    {
+      "side": "for",
+      "fact": "Regular attendance can support participation in lectures, discussions, laboratories and continuous assessment.",
+      "source": "https://www.ugc.gov.in/"
+    },
+    {
+      "side": "against",
+      "fact": "Attendance rules may disadvantage students managing paid work, internships, health needs or family responsibilities.",
+      "source": "https://www.ugc.gov.in/"
+    },
+    {
+      "side": "against",
+      "fact": "Requiring physical presence can limit flexibility even when students can access recorded lectures and online material.",
+      "source": "https://www.ugc.gov.in/"
+    },
+    {
+      "side": "against",
+      "fact": "Attendance alone does not measure engagement, comprehension or academic performance.",
+      "source": "https://www.ugc.gov.in/"
+    }
+  ]
+}

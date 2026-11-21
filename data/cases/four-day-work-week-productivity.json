@@ -1,0 +1,36 @@
+{
+  "title": "Is a 4-day work week better for productivity?",
+  "description": "The debate assesses whether reducing the standard work week to four days improves productivity, wellbeing and business performance.",
+  "facts": [
+    {
+      "side": "for",
+      "fact": "In the UK's six-month trial, 92% of participating companies continued or planned to continue the four-day week.",
+      "source": "https://www.bbc.co.uk/news/business-64669987"
+    },
+    {
+      "side": "for",
+      "fact": "Participating companies reported a 65% reduction in sick days and a 57% fall in staff leaving.",
+      "source": "https://www.sociology.cam.ac.uk/news/new-results-worlds-largest-trial-four-day-working-week"
+    },
+    {
+      "side": "for",
+      "fact": "Among 23 companies providing financial data, revenue rose by 1.4% on average during the trial.",
+      "source": "https://www.sociology.cam.ac.uk/news/new-results-worlds-largest-trial-four-day-working-week"
+    },
+    {
+      "side": "against",
+      "fact": "Only 23 of the UK trial's participating organisations provided revenue data, limiting the financial evidence.",
+      "source": "https://www.bbc.co.uk/news/business-64669987"
+    },
+    {
+      "side": "against",
+      "fact": "The trial was voluntary and involved a limited group of UK organisations rather than a representative national sample.",
+      "source": "https://www.sociology.cam.ac.uk/news/new-results-worlds-largest-trial-four-day-working-week"
+    },
+    {
+      "side": "against",
+      "fact": "Company revenue broadly stayed the same during the trial, rather than showing a large productivity-driven increase.",
+      "source": "https://www.bbc.co.uk/news/business-64669987"
+    }
+  ]
+}
