@@ -12,6 +12,7 @@ Every prompt we used to build this project, across all AI tools. Each row links 
 | [003](prompts/003-approve-plan-and-build.md) | Approve the plan and build the app | Aaritra Kumar | Claude | Step-by-step / chain | 2026-11-20 |
 | [004](prompts/004-design-pivot-no-characters.md) | Design pivot: cartoon characters → emblem courtroom | Aaritra Kumar | Claude | Refinement, Response evaluation, Reverse prompting | 2026-11-20 |
 | [005](prompts/005-professional-redesign.md) | Redesign: make it look designer-made, not AI-made | Aaritra Kumar | Claude | Response evaluation, Refinement, Constraints | 2026-11-20 |
+| [006](prompts/006-real-api-testing.md) | Test with real API keys (and the Gemini bug it found) | Aaritra Kumar | Claude | Response evaluation, Chain | 2026-11-21 |
 
 ## AI tools used (guideline 2.3: at least three)
 

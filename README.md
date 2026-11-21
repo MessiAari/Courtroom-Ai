@@ -137,6 +137,7 @@ See [`PROMPTS.md`](PROMPTS.md) for every prompt, which tool it went to, and how 
 | Setup screen appears | A required key is missing. Add it to `.env.local` (local) or Vercel env vars, then restart / redeploy. |
 | "The court is in recess" | All providers failed — usually a free-tier rate limit (429). Wait a minute and press Retry. Adding `MISTRAL_API_KEY` gives the lawyers a backup. |
 | Judge seems slow | Gemini can be busy; the Judge automatically falls back to Groq. You can also set `GEMINI_MODEL` to another Flash model. |
+| Judge always says "via Groq (fallback)" | Gemini is failing. Check the server log for `[ai] Gemini failed`. A 404 "not found for API version v1" means the model needs `v1beta` (already set in `lib/ai/gemini.ts`) or the name is wrong. Some newest models (e.g. `gemini-3.8-flash`) were hanging during testing; `gemini-3-flash-preview` responded in ~2–3 s. |
 | No voices | Click **Voices on** (muted by default). Some browsers have only one voice, so characters differ by pitch only. |
 | Lawyers cite `[E1]` etc. | That's evidence from a Case Library file. Placeholder facts are never sent to the AI. |
 | Build fails on fonts | `next/font` downloads Google Fonts at build time; make sure you're online. |
