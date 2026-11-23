@@ -12,7 +12,9 @@ The full build brief is prompt 002: `prompts/002-initial-project-prompt.md`. Fol
 ## Research
 - Perplexity report: `docs/research-report.md`. Case Library facts in `data/cases/*.json` carry `side: "for" | "against"`.
 
-## Prompt logging (mandatory, every session)
+## Prompt logging (STOPPED on 2026-11-23)
+
+**Aaritra asked to stop logging prompts from 2026-11-23. Do not add new prompt files unless asked again.** The rules below describe how prompts 001–015 were logged.
 
 Every prompt Aaritra gives you in this project gets logged — the graders check prompt history.
 

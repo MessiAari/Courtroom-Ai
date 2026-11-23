@@ -59,7 +59,12 @@ export async function readBody<S extends z.ZodTypeAny>(
   return { data: { ...(parsed.data as object), topic: topicCheck.topic } as z.output<S> };
 }
 
-/** Case Library facts to use as evidence. Placeholder facts are skipped so lawyers never cite them. */
-export function evidenceFor(caseId: string | undefined): CaseFact[] {
-  return (getCase(caseId)?.facts ?? []).filter((f) => !/placeholder/i.test(`${f.fact} ${f.source}`));
+/**
+ * Evidence for this hearing: the Case Library's researched facts when a library case is used
+ * (loaded here on the server, so they can't be tampered with), otherwise the web-researched
+ * facts the browser got from /api/debate/research. Placeholder facts are skipped.
+ */
+export function evidenceFor(caseId: string | undefined, fromClient?: CaseFact[]): CaseFact[] {
+  const library = getCase(caseId)?.facts;
+  return (library ?? fromClient ?? []).filter((f) => !/placeholder/i.test(`${f.fact} ${f.source}`));
 }

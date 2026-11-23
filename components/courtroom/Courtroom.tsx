@@ -7,7 +7,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ButtonLink, buttonClass } from "@/components/ui/primitives";
 import { motion, useAnimationControls } from "framer-motion";
-import type { DebateMode, Emotion, Phase, Side, Speaker } from "@/lib/types";
+import type { CaseFact, DebateMode, Emotion, Phase, Side, Speaker } from "@/lib/types";
 import { useDebate, type StepResult } from "@/lib/debate/useDebate";
 import { PHASE_LABEL, phasesFor } from "@/lib/debate/rounds";
 import { pauseSpeaking, resumeSpeaking, stopSpeaking } from "@/lib/speech";
@@ -17,6 +17,7 @@ import { Controls, CredibilityScale, ObjectionBand, RecessNotice, Roster, RoundP
 import { Judgment } from "@/components/verdict/Judgment";
 import { AskTheJudge } from "@/components/chat/AskTheJudge";
 import { CourtScene, type SceneState } from "@/components/court/CourtScene";
+import { EvidenceBadge, EvidenceContext, ExhibitsPanel } from "./Evidence";
 
 const KIND_LABEL = { statement: "", question: " · Question", answer: " · Answer" } as const;
 
@@ -57,12 +58,13 @@ function toEntries(results: StepResult[]): EntryData[] {
   return entries;
 }
 
-export function Courtroom({ topic, mode, caseId }: { topic: string; mode: DebateMode; caseId?: string }) {
-  const debate = useDebate({ topic, mode, caseId });
+export function Courtroom({ topic, mode, caseId, libraryEvidence }: { topic: string; mode: DebateMode; caseId?: string; libraryEvidence?: CaseFact[] }) {
+  const debate = useDebate({ topic, mode, caseId, libraryEvidence });
   const [voiceOn, setVoiceOn] = useState(false); // muted by default
   const [introDone, setIntroDone] = useState(false); // the Judge's opening line plays first
   const [objectionDismissed, setObjectionDismissed] = useState(-1); // index of the last ruling whose band finished
   const [fullRecord, setFullRecord] = useState(true); // collapsible transcript
+  const [exhibitsOpen, setExhibitsOpen] = useState(true); // exhibits list starts open on desktop, closed on phones
   const shake = useAnimationControls();
 
   const { current, results, status, visible } = debate;
@@ -72,7 +74,11 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
 
   // On phones, start with only the current statement showing (one at a time).
   useEffect(() => {
-    const id = requestAnimationFrame(() => setFullRecord(!window.matchMedia("(max-width: 639px)").matches));
+    const id = requestAnimationFrame(() => {
+      const desktop = !window.matchMedia("(max-width: 639px)").matches;
+      setFullRecord(desktop);
+      setExhibitsOpen(desktop);
+    });
     return () => cancelAnimationFrame(id);
   }, []);
 
@@ -126,7 +132,8 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
   const upcoming = debate.upcoming;
   const upcomingSpeaker: Speaker | null = upcoming ? (upcoming.type === "turn" ? upcoming.speaker : "judge") : null;
   const speaking: Speaker | null = !introDone ? "judge" : (liveEntry?.speaker ?? null);
-  const preparing = introDone && !liveEntry && debate.fetching ? upcomingSpeaker : null;
+  // While the clerk researches evidence, the Judge "thinks"; otherwise whoever is fetching their turn.
+  const preparing = introDone && !liveEntry ? (debate.researching ? "judge" : debate.fetching ? upcomingSpeaker : null) : null;
   const partyStatus = (who: Speaker): PartyStatus => (speaking === who ? "speaking" : preparing === who ? "preparing" : "idle");
 
   const phases = phasesFor(mode);
@@ -141,8 +148,9 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
             ? upcoming.phase
             : null;
 
-  const pendingText =
-    upcoming?.type === "verdict"
+  const pendingText = debate.researching
+    ? "The clerk is gathering evidence from the web"
+    : upcoming?.type === "verdict"
       ? "The court is deliberating"
       : upcoming?.type === "judge"
         ? "Weighing the round"
@@ -192,9 +200,21 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
   // ── Judgment view ─────────────────────────────────────────────
   if (verdict) {
     return (
+      <EvidenceContext.Provider value={debate.evidence}>
       <div className="mx-auto max-w-7xl px-5 pb-10 sm:px-8">
         <Judgment verdict={verdict} topic={topic} mode={mode} />
-        <AskTheJudge topic={topic} caseId={caseId} turns={debate.turns} scores={debate.scores} verdict={verdict} />
+        <div className="mt-10 space-y-3">
+          <EvidenceBadge kind={debate.evidenceKind} count={debate.evidence.length} researching={false} />
+          <ExhibitsPanel facts={debate.evidence} kind={debate.evidenceKind} open={false} />
+        </div>
+        <AskTheJudge
+          topic={topic}
+          caseId={caseId}
+          evidence={caseId ? undefined : debate.evidence}
+          turns={debate.turns}
+          scores={debate.scores}
+          verdict={verdict}
+        />
         <details className="group mt-16 rounded-xl border border-line">
           <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4 transition-colors hover:bg-white/[0.02]">
             <span className="label">Full record · {entries.length + 1} entries</span>
@@ -215,11 +235,13 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
           </button>
         </div>
       </div>
+      </EvidenceContext.Provider>
     );
   }
 
   // ── Hearing view ──────────────────────────────────────────────
   return (
+    <EvidenceContext.Provider value={debate.evidence}>
     <div className="pb-10">
       <ObjectionBand by={objection?.by ?? null} type={objection?.type} />
 
@@ -232,7 +254,7 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
               <span className="h-1.5 w-1.5 animate-pulse bg-accent" /> In session
             </span>
             · {mode === "full" ? "Full hearing" : "Quick hearing"}
-            {caseId ? " · From the case library" : ""}
+            {caseId ? " · From the case library" : debate.evidenceKind === "web" ? " · Web-researched evidence" : debate.researching ? "" : " · Not fact-checked"}
           </p>
           <h1 className="display mt-5 max-w-5xl text-4xl sm:text-6xl lg:text-7xl">{topic}</h1>
           <div className="mt-8 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
@@ -274,6 +296,11 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
         </div>
 
         <div className="min-w-0">
+        {/* Evidence on file: where the facts come from, and the exhibits with their sources */}
+        <div className="mb-5 space-y-3 px-1">
+          <EvidenceBadge kind={debate.evidenceKind} count={debate.evidence.length} researching={debate.researching} />
+          <ExhibitsPanel key={String(exhibitsOpen)} facts={debate.evidence} kind={debate.evidenceKind} open={exhibitsOpen} />
+        </div>
         <div className="flex items-center justify-between px-2 pb-3">
           <p className="label">The record</p>
           {pastEntries.length > 0 && introDone && (
@@ -324,5 +351,6 @@ export function Courtroom({ topic, mode, caseId }: { topic: string; mode: Debate
         </div>
       </motion.div>
     </div>
+    </EvidenceContext.Provider>
   );
 }

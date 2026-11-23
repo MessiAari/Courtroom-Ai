@@ -2,6 +2,7 @@
 // Entries in the live court record. A finished entry is static; the current one
 // types itself out (and is optionally spoken), then tells the debate loop it's done.
 
+import { EvidenceChip } from "./Evidence";
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Emotion, Fallacy, Speaker } from "@/lib/types";
@@ -24,16 +25,10 @@ export interface EntryData {
 const CHARS_PER_TICK = 2;
 const TICK_MS = 26; // ≈ 75 characters per second
 
-/** Highlights evidence tags like [E2] as small pixel chips. */
+/** Turns evidence tags like [E2] into chips you can hover / tap to read the fact and open its source. */
 function withEvidence(text: string) {
   return text.split(/(\[E\d+\])/g).map((part, i) =>
-    /^\[E\d+\]$/.test(part) ? (
-      <span key={i} className="mx-0.5 inline-block -translate-y-0.5 rounded-sm bg-accent/15 px-1.5 py-0.5 align-middle font-pixel text-[0.55em] text-accent">
-        {part.slice(1, -1)}
-      </span>
-    ) : (
-      part
-    ),
+    /^\[E\d+\]$/.test(part) ? <EvidenceChip key={i} n={Number(part.slice(2, -1))} /> : part,
   );
 }
 

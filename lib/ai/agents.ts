@@ -55,6 +55,7 @@ const normalise = (s: string) => s.toLowerCase().replace(/[^a-z0-9 ]/g, "").repl
 export async function judgeRound(p: {
   topic: string;
   transcript: string;
+  evidence?: CaseFact[];
   phase: Phase;
   sideTexts: Record<Side, string>;
 }): Promise<RoundScore> {
@@ -62,7 +63,7 @@ export async function judgeRound(p: {
     JUDGE_CHAIN,
     {
       system: JUDGE_ROUND_SYSTEM,
-      messages: [{ role: "user", content: judgeRoundUserPrompt(p.topic, p.transcript, p.phase) }],
+      messages: [{ role: "user", content: judgeRoundUserPrompt(p.topic, p.transcript, p.phase, p.evidence) }],
       maxTokens: 300,
       temperature: 0.2,
     },
@@ -84,6 +85,7 @@ export async function judgeRound(p: {
 export async function judgeVerdict(p: {
   topic: string;
   transcript: string;
+  evidence?: CaseFact[];
   scoresText: string;
   scores: RoundScore[];
 }): Promise<Verdict> {
@@ -91,7 +93,7 @@ export async function judgeVerdict(p: {
     JUDGE_CHAIN,
     {
       system: JUDGE_VERDICT_SYSTEM,
-      messages: [{ role: "user", content: verdictUserPrompt(p.topic, p.transcript, p.scoresText) }],
+      messages: [{ role: "user", content: verdictUserPrompt(p.topic, p.transcript, p.scoresText, p.evidence) }],
       maxTokens: 1200,
       temperature: 0.3,
     },
@@ -124,10 +126,11 @@ export async function judgeChat(p: {
   transcript: string;
   scoresText: string;
   verdictJson: string;
+  evidence?: CaseFact[];
   messages: { role: "user" | "assistant"; content: string }[];
 }) {
   return generateWithFallback(JUDGE_CHAIN, {
-    system: judgeChatSystemPrompt({ topic: p.topic, transcript: p.transcript, scores: p.scoresText, verdict: p.verdictJson }),
+    system: judgeChatSystemPrompt({ topic: p.topic, transcript: p.transcript, scores: p.scoresText, verdict: p.verdictJson, evidence: p.evidence }),
     // SECURITY: the student's text is wrapped as data, so "ignore your rules…" is read as a question, not an order.
     messages: p.messages.map((m) => (m.role === "user" ? { role: "user" as const, content: dataBlock("question", m.content) } : m)),
     maxTokens: 700,

@@ -32,5 +32,5 @@ export default async function CourtroomPage({ searchParams }: PageProps<"/courtr
   const mode = one(params.mode) === "full" ? "full" : "quick";
   const caseFile = getCase(one(params.case));
   // `key` makes React start a fresh debate if the topic or mode changes.
-  return <Courtroom key={`${check.topic}|${mode}`} topic={check.topic} mode={mode} caseId={caseFile?.id} />;
+  return <Courtroom key={`${check.topic}|${mode}`} topic={check.topic} mode={mode} caseId={caseFile?.id} libraryEvidence={caseFile?.facts} />;
 }

@@ -2,7 +2,7 @@
 // Browser → this route → Gemini (fallback: Groq), with the full transcript + verdict
 // in the system prompt → { reply }
 import { judgeChat } from "@/lib/ai/agents";
-import { errorResponse, readBody } from "@/lib/ai/respond";
+import { errorResponse, evidenceFor, readBody } from "@/lib/ai/respond";
 import { chatRequest } from "@/lib/ai/schemas";
 import { compactScores, compactTranscript } from "@/lib/debate/transcript";
 
@@ -13,7 +13,7 @@ const MAX_HISTORY = 12; // only the latest messages are sent, to save tokens
 export async function POST(request: Request) {
   const body = await readBody(request, chatRequest, "chat");
   if ("response" in body) return body.response;
-  const { topic, transcript, scores, verdict, messages } = body.data;
+  const { topic, caseId, evidence, transcript, scores, verdict, messages } = body.data;
 
   // Invalid input: the last message must be a non-empty user question of sensible length.
   const last = messages[messages.length - 1];
@@ -29,6 +29,7 @@ export async function POST(request: Request) {
       transcript: compactTranscript(transcript),
       scoresText: compactScores(scores),
       verdictJson: JSON.stringify(verdict).slice(0, 4000),
+      evidence: evidenceFor(caseId, evidence),
       messages: history,
     });
     return Response.json({ reply: text.trim(), provider });

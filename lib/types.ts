@@ -63,7 +63,11 @@ export interface CaseFact {
   fact: string;
   source: string;
   side?: "for" | "against"; // which side the fact mainly supports (from our Perplexity research)
+  sourceTitle?: string; // site name, for facts found by the web-research step
 }
+
+/** Where a hearing's evidence came from. */
+export type EvidenceKind = "library" | "web" | "none";
 
 export interface CaseFile {
   id: string;

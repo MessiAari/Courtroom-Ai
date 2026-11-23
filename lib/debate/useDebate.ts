@@ -11,8 +11,8 @@
 // anything: we just pause in "recess" and the user can retry the same step.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
-import type { CourtErrorCode, DebateMode, RoundScore, Turn, Verdict } from "@/lib/types";
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import type { CaseFact, CourtErrorCode, DebateMode, EvidenceKind, RoundScore, Turn, Verdict } from "@/lib/types";
 import { buildPlan, type JudgeStep, type Step, type TurnStep } from "./rounds";
 
 export type StepResult =
@@ -116,10 +116,28 @@ export interface DebateConfig {
   topic: string;
   mode: DebateMode;
   caseId?: string;
+  /** Case Library facts (for showing exhibits; the server loads its own copy). */
+  libraryEvidence?: CaseFact[];
 }
 
-export function useDebate({ topic, mode, caseId }: DebateConfig) {
+export function useDebate({ topic, mode, caseId, libraryEvidence }: DebateConfig) {
   const [state, dispatch] = useReducer(reducer, initial);
+
+  // EVIDENCE: library cases already have researched facts. For a typed-in topic the
+  // clerk researches the web first (while the Judge's opening line plays); the lawyers
+  // wait for it, then every step sends the evidence along so they can cite [E1]–[E6].
+  const [webEvidence, setWebEvidence] = useState<CaseFact[] | null>(null); // null = still researching
+  const researchStarted = useRef(false);
+  useEffect(() => {
+    if (caseId || researchStarted.current) return;
+    researchStarted.current = true;
+    callApi<{ evidence: CaseFact[] }>("/api/debate/research", { topic })
+      .then((r) => setWebEvidence(Array.isArray(r.evidence) ? r.evidence : []))
+      .catch(() => setWebEvidence([])); // research failed → hearing runs "not fact-checked"
+  }, [caseId, topic]);
+  const researching = !caseId && webEvidence === null;
+  const evidence = useMemo(() => (caseId ? (libraryEvidence ?? []) : (webEvidence ?? [])), [caseId, libraryEvidence, webEvidence]);
+  const evidenceKind: EvidenceKind = caseId ? "library" : evidence.length ? "web" : "none";
   const plan = useMemo(() => buildPlan(mode), [mode]);
   // Guards against starting the same request twice (React Strict Mode runs effects twice in dev).
   const inFlight = useRef<string | null>(null);
@@ -132,7 +150,12 @@ export function useDebate({ topic, mode, caseId }: DebateConfig) {
   /** Runs one step against the right API route. */
   const runStep = useCallback(
     async (step: Step): Promise<StepResult> => {
-      const base = { topic, caseId, transcript: turns.map(({ speaker, phase, kind, text }) => ({ speaker, phase, kind, text })) };
+      const base = {
+        topic,
+        caseId,
+        ...(caseId || !evidence.length ? {} : { evidence }),
+        transcript: turns.map(({ speaker, phase, kind, text }) => ({ speaker, phase, kind, text })),
+      };
       if (step.type === "turn") {
         const reply = await callApi<{ text: string; emotion: Turn["emotion"]; provider: string }>("/api/debate/turn", {
           ...base,
@@ -147,13 +170,13 @@ export function useDebate({ topic, mode, caseId }: DebateConfig) {
       const v = await callApi<Verdict>("/api/debate/verdict", { ...base, scores });
       return { kind: "verdict", verdict: v };
     },
-    [topic, caseId, turns, scores],
+    [topic, caseId, evidence, turns, scores],
   );
 
   // The loop itself: whenever we're running, idle, and not too far ahead of the
   // screen, fetch the next step.
   useEffect(() => {
-    if (state.status !== "running" || state.fetching) return;
+    if (state.status !== "running" || state.fetching || researching) return;
     if (state.results.length - state.shown >= 2) return; // wait for the scene to catch up
     const step = nextStep(plan, state);
     if (!step) return;
@@ -169,13 +192,16 @@ export function useDebate({ topic, mode, caseId }: DebateConfig) {
         inFlight.current = null; // allow "retry" to fire the same step again
         dispatch({ type: "fetch_fail", runId, code: e instanceof ApiError ? e.code : "recess" });
       });
-  }, [plan, state, runStep]);
+  }, [plan, state, runStep, researching]);
 
   const current = state.shown < state.results.length ? state.results[state.shown] : null;
   const shownTurns = state.results.slice(0, state.shown + (current ? 1 : 0));
 
   return {
     plan,
+    evidence,
+    evidenceKind,
+    researching,
     status: state.status,
     error: state.error,
     fetching: state.fetching,

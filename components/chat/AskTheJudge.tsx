@@ -7,7 +7,8 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUp, RotateCcw, Trash2 } from "lucide-react";
-import type { ChatMessage, RoundScore, Turn, Verdict } from "@/lib/types";
+import { EvidenceChip } from "@/components/courtroom/Evidence";
+import type { CaseFact, ChatMessage, RoundScore, Turn, Verdict } from "@/lib/types";
 import { PixelArt } from "@/components/ui/PixelArt";
 import { BUBBLE, SCALES } from "@/components/ui/pixel-icons";
 import { PixelLoader } from "@/components/courtroom/Record";
@@ -19,12 +20,15 @@ const MAX_LEN = 500;
 export function AskTheJudge({
   topic,
   caseId,
+  evidence,
   turns,
   scores,
   verdict,
 }: {
   topic: string;
   caseId?: string;
+  /** Web-researched evidence for typed-in topics (library evidence is loaded on the server). */
+  evidence?: CaseFact[];
   turns: Turn[];
   scores: RoundScore[];
   verdict: Verdict;
@@ -51,6 +55,7 @@ export function AskTheJudge({
         body: JSON.stringify({
           topic,
           caseId,
+          ...(evidence?.length ? { evidence } : {}),
           transcript: turns.map(({ speaker, phase, kind, text }) => ({ speaker, phase, kind, text })),
           scores: scores.map(({ phase, prosecutorScore, defenderScore, fallacy }) => ({ phase, prosecutorScore, defenderScore, fallacy })),
           verdict,
@@ -157,7 +162,7 @@ export function AskTheJudge({
                   m.role === "user" ? "rounded-br-sm bg-ink text-bg" : "rounded-bl-sm border border-line bg-raised text-ink"
                 }`}
               >
-                {m.content}
+                {m.role === "assistant" ? formatReply(m.content) : m.content}
               </div>
             </motion.div>
           ))}
@@ -206,5 +211,22 @@ export function AskTheJudge({
         </form>
       </div>
     </section>
+  );
+}
+
+/** Renders the Judge's reply as text: **bold** becomes bold, *italics* markers are dropped,
+ *  and evidence tags like [E2] become the same clickable exhibit chips as in the record. */
+function formatReply(text: string) {
+  const clean = text.replace(/\*\*(\[E\d+\])\*\*/g, "$1").replace(/(^|[\s(])\*([^*\n]+)\*/g, "$1$2");
+  const inline = (part: string, key: string) =>
+    part.split(/(\[E\d+\])/g).map((bit, j) => (/^\[E\d+\]$/.test(bit) ? <EvidenceChip key={`${key}-${j}`} n={Number(bit.slice(2, -1))} /> : bit));
+  return clean.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith("**") && part.endsWith("**") ? (
+      <strong key={i} className="font-semibold">
+        {inline(part.slice(2, -2), String(i))}
+      </strong>
+    ) : (
+      inline(part, String(i))
+    ),
   );
 }

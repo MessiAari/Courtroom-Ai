@@ -70,11 +70,26 @@ const scoreInput = z.object({
   fallacy: z.object({ by: side, type: shortText(60), quote: shortText(400) }).nullable(),
 });
 
+// Web-researched evidence for typed-in topics (Case Library evidence is loaded on the server instead).
+export const evidenceInput = z
+  .array(
+    z.object({
+      side: z.enum(["for", "against"]).optional(),
+      fact: shortText(300),
+      source: z.string().max(1000).url().refine((u) => /^https?:\/\//.test(u), "web links only"),
+      sourceTitle: shortText(120).optional(),
+    }),
+  )
+  .max(8);
+
 export const debateContext = z.object({
   topic: shortText(400), // the case rules (10–300 characters) are checked after this
   caseId: z.string().max(80).regex(/^[a-z0-9-]*$/).optional(),
+  evidence: evidenceInput.optional(),
   transcript,
 });
+
+export const researchRequest = z.object({ topic: shortText(400) });
 
 export const turnRequest = debateContext.extend({
   step: z.object({ speaker: side, phase, kind }),
