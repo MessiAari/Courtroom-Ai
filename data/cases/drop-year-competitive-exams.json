@@ -4,23 +4,23 @@
   "facts": [
     {
       "side": "for",
-      "fact": "NTA permits candidates to appear for NEET-UG in multiple years, allowing a second, focused preparation attempt.",
-      "source": "https://neet.nta.nic.in/"
+      "fact": "In March 2022 the National Medical Commission removed the upper age limit for NEET-UG, so students can sit the exam again after a drop year.",
+      "source": "https://theprint.in/india/education/national-medical-commission-removes-upper-age-limit-for-neet-under-graduate-2022-exam/865851/"
     },
     {
       "side": "for",
-      "fact": "A drop year can give students additional time to revise syllabi, practise mock tests and address earlier preparation gaps.",
-      "source": "https://neet.nta.nic.in/"
+      "fact": "JEE Advanced allows a maximum of two attempts in two consecutive years, so a student who drops right after Class 12 still gets a second IIT attempt.",
+      "source": "https://jeeadv.ac.in/eligibility.html"
     },
     {
       "side": "for",
-      "fact": "For some students, an improved rank can widen access to preferred colleges and courses.",
-      "source": "https://neet.nta.nic.in/"
+      "fact": "India had 1,18,190 MBBS seats for NEET-UG 2025 counselling, so a better rank after another year of preparation can decide who gets one.",
+      "source": "https://news.careers360.com/mcc-neet-ug-counselling-2025-begins-tomorrow-registration-colleges-fees-link-12-36-lakh-compete-for-1-18-lakh-mbbs-seats/amp"
     },
     {
       "side": "against",
-      "fact": "A repeat attempt does not guarantee admission because seats, cutoffs and competition can change each year.",
-      "source": "https://neet.nta.nic.in/"
+      "fact": "In NEET-UG 2025, 12.36 lakh qualified candidates competed for just 1.18 lakh MBBS seats, so a repeat attempt does not guarantee admission.",
+      "source": "https://news.careers360.com/mcc-neet-ug-counselling-2025-begins-tomorrow-registration-colleges-fees-link-12-36-lakh-compete-for-1-18-lakh-mbbs-seats/amp"
     },
     {
       "side": "against",
@@ -29,8 +29,8 @@
     },
     {
       "side": "against",
-      "fact": "Students may have credible alternatives, including other colleges, courses, skill programmes or employment pathways.",
-      "source": "https://www.education.gov.in/"
+      "fact": "Only students who first passed Class 12 in 2026 or 2027 can take JEE Advanced 2027, so more than one drop year ends IIT eligibility.",
+      "source": "https://jeeadv.ac.in/eligibility.html"
     }
   ]
 }

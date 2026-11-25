@@ -14,23 +14,23 @@
     },
     {
       "side": "for",
-      "fact": "Blockchain-based systems can enable peer-to-peer digital value transfer without a traditional central intermediary.",
-      "source": "https://www.bis.org/"
+      "fact": "On 10 January 2024 the US SEC approved the listing and trading of spot bitcoin exchange-traded products, bringing bitcoin into mainstream investment funds.",
+      "source": "https://www.sec.gov/newsroom/speeches-statements/gensler-statement-spot-bitcoin-011023"
     },
     {
       "side": "against",
-      "fact": "Cryptocurrency prices can be highly volatile, creating risks for savers, investors and payment users.",
-      "source": "https://www.rbi.org.in/"
+      "fact": "Bitcoin started 2022 at $43,319 and ended the year at $16,604, a 64.2% drop in a single year.",
+      "source": "https://www.foxbusiness.com/markets/brutal-year-bitcoin-almost-3b-lost-in-crypto-hacks-marked-2022"
     },
     {
       "side": "against",
-      "fact": "India taxes income from virtual digital assets at 30%, plus applicable surcharge and cess, with restricted loss offsets.",
-      "source": "https://incometaxindia.gov.in/"
+      "fact": "Section 115BBH of India's Income-tax Act taxes income from transferring virtual digital assets at 30%, and such losses cannot be set off or carried forward.",
+      "source": "https://wm.incometaxindia.gov.in/w/section-115bbh-1"
     },
     {
       "side": "against",
-      "fact": "The Reserve Bank of India has repeatedly warned that private cryptocurrencies can pose risks to financial stability and consumer protection.",
-      "source": "https://www.rbi.org.in/"
+      "fact": "In October 2024 RBI Governor Shaktikanta Das said cryptocurrencies carry huge financial stability, monetary stability and banking-system risks.",
+      "source": "https://www.business-standard.com/finance/news/cryptocurrencies-huge-risks-to-financial-stability-says-rbi-guv-das-124102600058_1.html"
     }
   ]
 }

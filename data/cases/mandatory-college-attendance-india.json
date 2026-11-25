@@ -4,33 +4,33 @@
   "facts": [
     {
       "side": "for",
-      "fact": "The University Grants Commission's undergraduate framework prescribes a minimum of 75% attendance in each course.",
-      "source": "https://www.ugc.gov.in/"
+      "fact": "UGC's 2003 first-degree regulations (clause 5.8) say required attendance should ordinarily be at least 75% of lectures, tutorials, seminars and practicals.",
+      "source": "https://www.ugc.gov.in/oldpdf/regulations/firstdegree_regulation.pdf"
     },
     {
       "side": "for",
-      "fact": "Attendance requirements give institutions a consistent basis for examination eligibility and academic monitoring.",
-      "source": "https://www.ugc.gov.in/"
+      "fact": "A 2010 meta-analysis of 69 studies (21,195 students) found class attendance strongly related to grades (ρ = 0.44) and GPA (ρ = 0.41).",
+      "source": "https://eric.ed.gov/?id=EJ889127"
     },
     {
       "side": "for",
-      "fact": "Regular attendance can support participation in lectures, discussions, laboratories and continuous assessment.",
-      "source": "https://www.ugc.gov.in/"
+      "fact": "The same 2010 meta-analysis found that mandatory attendance policies had a small positive effect on average grades (d = 0.21).",
+      "source": "https://eric.ed.gov/?id=EJ889127"
     },
     {
       "side": "against",
-      "fact": "Attendance rules may disadvantage students managing paid work, internships, health needs or family responsibilities.",
-      "source": "https://www.ugc.gov.in/"
+      "fact": "In November 2025 the Delhi High Court held that no law student can be barred from exams or promotion merely for shortage of attendance.",
+      "source": "https://www.scconline.com/blog/post/2025/11/06/mandatory-attendance-delhi-high-court-legal-education-reform-sushant-rohilla-case-legal-news/"
     },
     {
       "side": "against",
-      "fact": "Requiring physical presence can limit flexibility even when students can access recorded lectures and online material.",
-      "source": "https://www.ugc.gov.in/"
+      "fact": "Delhi High Court later applied that precedent to DU students, ruling that attendance shortage alone has no legal basis for barring exams.",
+      "source": "https://www.tribuneindia.com/news/delhi/attendance-shortage-cant-bar-students-from-exams/"
     },
     {
       "side": "against",
-      "fact": "Attendance alone does not measure engagement, comprehension or academic performance.",
-      "source": "https://www.ugc.gov.in/"
+      "fact": "UGC's December 2024 draft regulations let institutions set their own minimum attendance, recognising online, hybrid and in-person learning.",
+      "source": "https://news.careers360.com/ugc-draft-guidelines-for-ug-pg-degrees-allow-biannual-admissions-relaxed-eligibility-two-programmes-multiple-entry-exit"
     }
   ]
 }
